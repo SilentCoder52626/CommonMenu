@@ -31,7 +31,11 @@ namespace InfrastructureModule.Repository
             return _context.Set<T>().ToList();
         }
 
-        public async Task<T?> GetById(long id)
+        public async Task<T?> GetByIdAsync(long id)
+        {
+            return await _context.Set<T>().FindAsync(id).ConfigureAwait(false);
+        }
+        public async Task<T?> GetByIdAsync(int id)
         {
             return await _context.Set<T>().FindAsync(id).ConfigureAwait(false);
         }
@@ -64,6 +68,15 @@ namespace InfrastructureModule.Repository
         public void Update(T entity)
         {
             _context.Set<T>().Attach(entity).State = EntityState.Modified;
+        }
+
+        public T? GetById(long id)
+        {
+            return _context.Set<T>().Find(id);
+        }
+        public T? GetById(int id)
+        {
+            return _context.Set<T>().Find(id);
         }
     }
 }

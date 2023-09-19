@@ -10,11 +10,13 @@ namespace DomainModule.BaseRepo
     {
         Task<IList<T>> GetAllAsync();
         IList<T> GetAll();
+        void Insert(T entity);
         Task InsertAsync(T entity);
         Task InsertRangeAsync(IList<T> entities);
         void Update(T entity);
         void Delete(T entity);
         IQueryable<T> GetQueryable();
-        Task<T?> GetById(long id);
+        Task<T?> GetByIdAsync(long id);
+        T? GetById(long id);
     }
 }

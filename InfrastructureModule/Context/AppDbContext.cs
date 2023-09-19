@@ -1,7 +1,9 @@
 ﻿using DomainModule.Dto.AuditDto;
 using DomainModule.Entity;
+using DomainModule.Entity.Menu;
 using DomainModule.Enums;
 using InfrastructureModule.Mapping;
+using InfrastructureModule.Mapping.Menu;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +29,7 @@ namespace InfrastructureModule.Context
         }
         public DbSet<Audit> Audits { get; set; }
         public DbSet<Activity> ActivityLogs { get; set; }
+        public DbSet<CompanyType> CompanyTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -34,6 +37,7 @@ namespace InfrastructureModule.Context
             builder.ApplyConfiguration(new UserEntityMapping());
             builder.ApplyConfiguration(new AuditEntityMapping());
             builder.ApplyConfiguration(new ActivityEntityMapping());
+            builder.ApplyConfiguration(new CompanyTypeEntityMapping());
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

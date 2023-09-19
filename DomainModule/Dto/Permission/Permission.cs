@@ -43,6 +43,14 @@ namespace DomainModule.Dto
                     {
                         "View",
                     }
+                },
+            {
+                    "CompanyType", new List<string>
+                    {
+                        "View",
+                        "Create",
+                        "Update"
+                    }
                 }
         };
 
