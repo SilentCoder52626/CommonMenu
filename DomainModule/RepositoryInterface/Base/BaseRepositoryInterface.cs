@@ -17,6 +17,8 @@ namespace DomainModule.BaseRepo
         void Delete(T entity);
         IQueryable<T> GetQueryable();
         Task<T?> GetByIdAsync(long id);
+        Task<T?> GetByIdAsync(int id);
         T? GetById(long id);
+        T? GetById(int id);
     }
 }
