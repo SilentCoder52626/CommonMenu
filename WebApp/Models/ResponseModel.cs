@@ -9,6 +9,12 @@ namespace WebApp.Models
         public string Message { get; set; }
         public object Data { get; set; }
     }
+    public class ApiResponseModel
+    {
+        public int StatusCode { get; set;}
+        public string? Message { get; set; }
+        public object? Data { get; set; }
+    }
     public enum StatusType { 
     success,
     error,

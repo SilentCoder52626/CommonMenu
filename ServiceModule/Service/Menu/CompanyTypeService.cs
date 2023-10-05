@@ -43,7 +43,7 @@ namespace ServiceModule.Service.Menu
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                throw;
             }
         }
 
@@ -67,7 +67,7 @@ namespace ServiceModule.Service.Menu
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message, ex);
+                throw;
             }
         }
 

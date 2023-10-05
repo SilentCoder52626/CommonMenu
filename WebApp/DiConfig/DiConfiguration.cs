@@ -36,6 +36,7 @@ namespace WebApp.DiConfig
          services.AddScoped<IAuditLogRepository,AuditLogRepository>();
          services.AddScoped<IActivityLogRepository,ActivityLogRepository>();
          services.AddScoped<ICompanyTypeRepository,CompanyTypeRepository>();
+         services.AddScoped<IAttachmentRepository,AttachmentRepository>();
         }
         private static void UseService(IServiceCollection services)
         {
@@ -46,6 +47,7 @@ namespace WebApp.DiConfig
             services.AddScoped<IEmailSenderService, EmailSenderService>();
 			services.AddTransient<IJWTTokenGenerator, JWTTokenGenerator>();
 			services.AddTransient<ICompanyTypeService, CompanyTypeService>();
+			services.AddTransient<IAttachmentService, AttachmentService>();
 
 		}
 	}

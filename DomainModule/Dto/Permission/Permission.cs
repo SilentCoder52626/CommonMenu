@@ -51,6 +51,13 @@ namespace DomainModule.Dto
                         "Create",
                         "Update"
                     }
+                },
+            {
+                    "Attachment", new List<string>
+                    {
+                        "View",
+                        "Upload",
+                    }
                 }
         };
 

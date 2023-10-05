@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework;
+using WebApp.Models;
 using WebApp.ViewModel;
 
 namespace WebApp.Areas.API.Controllers
@@ -34,7 +35,11 @@ namespace WebApp.Areas.API.Controllers
                 Id = a.Id,
                 Name = a.Name,
             }).ToList();
-            return Ok(returnModels);
+            return Ok(new ApiResponseModel()
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Data = returnModels
+            });
         }
         [Authorize(Policy = "CompanyType-Create")]
         [HttpPost("create")]
@@ -43,7 +48,13 @@ namespace WebApp.Areas.API.Controllers
             try
             {
                 _typeService.Create(model);
-                return Ok("Company Type Created Successfully");
+                return Ok(new ApiResponseModel()
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Message = "Company Type Created Successfully",
+                    
+
+                });
             }
             catch (Exception ex)
             {
@@ -57,7 +68,11 @@ namespace WebApp.Areas.API.Controllers
             try
             {
                 _typeService.Update(model);
-                return Ok("Company Type Updated Successfully");
+                return Ok(new ApiResponseModel()
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Message = "Company Type Updated Successfully",
+                });
             }
             catch (Exception ex)
             {

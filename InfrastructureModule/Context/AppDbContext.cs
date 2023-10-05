@@ -30,6 +30,7 @@ namespace InfrastructureModule.Context
         public DbSet<Audit> Audits { get; set; }
         public DbSet<Activity> ActivityLogs { get; set; }
         public DbSet<CompanyType> CompanyTypes { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -38,6 +39,7 @@ namespace InfrastructureModule.Context
             builder.ApplyConfiguration(new AuditEntityMapping());
             builder.ApplyConfiguration(new ActivityEntityMapping());
             builder.ApplyConfiguration(new CompanyTypeEntityMapping());
+            builder.ApplyConfiguration(new AttachmentEntityMapping());
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
