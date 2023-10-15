@@ -13,5 +13,6 @@ namespace DomainModule.Entity
         public string Path { get; set; }
         public DateTime UploadedDateTime { get; set; }
         public string UploadedBy { get; set; }
+        
     }
 }

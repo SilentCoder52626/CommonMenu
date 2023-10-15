@@ -1,5 +1,6 @@
 ﻿using BaseModule.Repository.User;
 using DomainModule.BaseRepo;
+using DomainModule.Entity.Menu;
 using DomainModule.Repository;
 using DomainModule.RepositoryInterface;
 using DomainModule.RepositoryInterface.ActivityLog;
@@ -36,7 +37,11 @@ namespace WebApp.DiConfig
          services.AddScoped<IAuditLogRepository,AuditLogRepository>();
          services.AddScoped<IActivityLogRepository,ActivityLogRepository>();
          services.AddScoped<ICompanyTypeRepository,CompanyTypeRepository>();
+         services.AddScoped<ICompanyRepository,CompanyRepository>();
          services.AddScoped<IAttachmentRepository,AttachmentRepository>();
+         services.AddScoped<IItemRepository,ItemRepository>();
+         services.AddScoped<IMenuCategoryRepository,MenuCategoryRepository>();
+         services.AddScoped<IMenuCategoryImagesRepository,MenuCategoryImagesRepository>();
         }
         private static void UseService(IServiceCollection services)
         {

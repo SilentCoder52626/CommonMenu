@@ -29,8 +29,11 @@ namespace InfrastructureModule.Context
         }
         public DbSet<Audit> Audits { get; set; }
         public DbSet<Activity> ActivityLogs { get; set; }
-        public DbSet<CompanyType> CompanyTypes { get; set; }
-        public DbSet<Attachment> Attachments { get; set; }
+        //public DbSet<CompanyType> CompanyTypes { get; set; }
+        //public DbSet<Company> Companies { get; set; }
+        //public DbSet<Attachment> Attachments { get; set; }
+        //public DbSet<MenuCategory> MenuCategories { get; set; }
+        //public DbSet<MenuCategoryImages> MenuCategoryImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -40,6 +43,10 @@ namespace InfrastructureModule.Context
             builder.ApplyConfiguration(new ActivityEntityMapping());
             builder.ApplyConfiguration(new CompanyTypeEntityMapping());
             builder.ApplyConfiguration(new AttachmentEntityMapping());
+            builder.ApplyConfiguration(new CompanyEntityMapping());
+            builder.ApplyConfiguration(new MenuCategoryEntityMapping());
+            builder.ApplyConfiguration(new MenuCategoryImagesEntityMapping());
+            builder.ApplyConfiguration(new ItemEntityMapping());
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

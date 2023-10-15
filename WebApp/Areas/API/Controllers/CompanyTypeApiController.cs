@@ -28,8 +28,8 @@ namespace WebApp.Areas.API.Controllers
         [HttpGet("")]
         public IActionResult GetCompanyTypes()
         {
-            var users = _typeRepo.GetQueryable().ToList();
-            var returnModels = users.Select(a => new CompanyTypeDto()
+            var companyTypes = _typeRepo.GetQueryable().ToList();
+            var returnModels = companyTypes.Select(a => new CompanyTypeDto()
             {
                 Code = a.Code,
                 Id = a.Id,

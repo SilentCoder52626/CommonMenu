@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace InfrastructureModule.Mapping.Menu
 {
-    public class CompanyTypeEntityMapping : IEntityTypeConfiguration<CompanyType>
+    public class MenuCategoryEntityMapping : IEntityTypeConfiguration<MenuCategory>
     {
-        public void Configure(EntityTypeBuilder<CompanyType> builder)
+        public void Configure(EntityTypeBuilder<MenuCategory> builder)
         {
             builder
               .HasKey(a => a.Id);
@@ -25,14 +25,18 @@ namespace InfrastructureModule.Mapping.Menu
                     .HasColumnName("name")
                     .IsRequired();
             builder
-                   .Property(a => a.Code)
-                   .HasColumnName("code")
+                   .Property(a => a.Status)
+                   .HasColumnName("status")
                    .HasMaxLength(100)
                    .IsRequired();
             builder
-                .HasMany(a => a.Companies)
-                .WithOne(a => a.CompanyType)
-                .HasForeignKey(a => a.CompanyTypeId);
+                   .Property(a => a.Description)
+                   .HasColumnName("description")
+                   .HasMaxLength(1000);
+            builder
+                .HasMany(a => a.Images)
+                .WithOne(a => a.Category)
+                .HasForeignKey(a => a.CategoryId);
         }
     }
 }
