@@ -10,5 +10,6 @@ namespace DomainModule.RepositoryInterface.Menu
 {
     public interface IMenuCategoryImagesRepository : BaseRepositoryInterface<MenuCategoryImages>
     {
+        MenuCategoryImages? GetByAttachmentIdandCategoryId(int categoryId, int attachmentId);
     }
 }

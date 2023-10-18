@@ -50,9 +50,12 @@ namespace WebApp.DiConfig
             services.AddScoped<RoleServiceInterface, RoleService>();
             services.AddScoped<IActivityLogService, ActivityLogService>();
             services.AddScoped<IEmailSenderService, EmailSenderService>();
-			services.AddTransient<IJWTTokenGenerator, JWTTokenGenerator>();
-			services.AddTransient<ICompanyTypeService, CompanyTypeService>();
-			services.AddTransient<IAttachmentService, AttachmentService>();
+			services.AddScoped<IJWTTokenGenerator, JWTTokenGenerator>();
+			services.AddScoped<ICompanyTypeService, CompanyTypeService>();
+			services.AddScoped<IAttachmentService, AttachmentService>();
+			services.AddScoped<ICompanyService, CompanyService>();
+			services.AddScoped<IMenuCategoryService, MenuCategoryService>();
+			services.AddScoped<IItemService, ItemService>();
 
 		}
 	}

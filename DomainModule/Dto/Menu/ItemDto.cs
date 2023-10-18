@@ -20,6 +20,7 @@ namespace DomainModule.Dto.Menu
         public string Price { get; set; }
         public string Status { get; set; }
         public int CategoryId { get; set; }
-        public string ImagePath { get; set; }
+        public AttachmentCreateDto Image { get; set; }
+
     }
 }

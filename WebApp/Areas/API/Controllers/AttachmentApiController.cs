@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
 using System.Net;
+using WebApp.Extensions;
 using WebApp.Helper;
 using WebApp.Models;
 
@@ -122,7 +123,7 @@ namespace WebApp.Areas.API.Controllers
                     FileName = fileName,
                     UploadedDateTime = DateTime.Now,
                     Path = filePath,
-                    UploadedBy = "1"
+                    UploadedBy = this.GetCurrentUserId()
                 });
 
                 return Ok(new ApiResponseModel()

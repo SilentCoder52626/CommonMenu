@@ -14,5 +14,10 @@ namespace InfrastructureModule.Repository.Menu
         public MenuCategoryImagesRepository(AppDbContext context) : base(context)
         {
         }
+
+        public MenuCategoryImages? GetByAttachmentIdandCategoryId(int categoryId, int attachmentId)
+        {
+            return this.GetQueryable().Where(a => a.AttachmentId == attachmentId && a.CategoryId == categoryId).FirstOrDefault();
+        }
     }
 }

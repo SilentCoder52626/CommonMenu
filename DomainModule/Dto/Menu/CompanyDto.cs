@@ -10,6 +10,7 @@ namespace DomainModule.Dto.Menu
     {
         
         public string CompanyType{ get; set; }
+
     }
     public class CompanyCreateDto
     {
@@ -21,7 +22,7 @@ namespace DomainModule.Dto.Menu
         public string Email { get; set; }
         public string Website { get; set; }
         public string Description { get; set; }
-        public string LogoPath { get; set; }
+        public AttachmentCreateDto LogoModel { get;set; }
         public int CompanyTypeId { get; set; }
     }
 }

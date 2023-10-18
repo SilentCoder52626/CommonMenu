@@ -52,10 +52,13 @@ namespace InfrastructureModule.Mapping.Menu
                    .HasMaxLength(1000)
                    .IsRequired();
             builder
-                   .Property(a => a.LogoPath)
+                   .Property(a => a.LogoId)
                    .HasColumnName("logo")
-                   .HasMaxLength(1000)
                    .IsRequired();
+            builder
+                .HasOne(a => a.Attachment)
+                .WithMany()
+                .HasForeignKey(a => a.LogoId);
             builder
                    .Property(a => a.CompanyTypeId)
                    .HasColumnName("company_type_id")

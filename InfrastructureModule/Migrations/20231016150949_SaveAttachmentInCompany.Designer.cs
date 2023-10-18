@@ -3,6 +3,7 @@ using System;
 using InfrastructureModule.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InfrastructureModule.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231016150949_SaveAttachmentInCompany")]
+    partial class SaveAttachmentInCompany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,7 +148,7 @@ namespace InfrastructureModule.Migrations
                     b.Property<DateTime>("DateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 10, 16, 20, 56, 26, 925, DateTimeKind.Local).AddTicks(5250))
+                        .HasDefaultValue(new DateTime(2023, 10, 16, 20, 54, 49, 147, DateTimeKind.Local).AddTicks(7656))
                         .HasColumnName("action_on");
 
                     b.Property<string>("IpAddress")
