@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,9 @@ namespace DomainModule.Dto.Menu
 {
     public class CompanyDto : CompanyCreateDto
     {
-        
-        public string CompanyType{ get; set; }
+
+        public string CompanyType { get; set; }
+        public AttachmentCreateDto LogoModel {get; set;}
 
     }
     public class CompanyCreateDto
@@ -22,7 +24,6 @@ namespace DomainModule.Dto.Menu
         public string Email { get; set; }
         public string Website { get; set; }
         public string Description { get; set; }
-        public AttachmentCreateDto LogoModel { get;set; }
         public int CompanyTypeId { get; set; }
     }
 }

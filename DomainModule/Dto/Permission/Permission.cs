@@ -44,7 +44,7 @@ namespace DomainModule.Dto
                         "View",
                     }
                 },
-            {
+                {
                     "CompanyType", new List<string>
                     {
                         "View",
@@ -52,13 +52,21 @@ namespace DomainModule.Dto
                         "Update"
                     }
                 },
-            {
+                {
                     "Attachment", new List<string>
                     {
                         "View",
                         "Upload",
                     }
+            },
+            {
+                "Company", new List<string>
+                {
+                    "View",
+                    "Create",
+                    "Status"
                 }
+            }
         };
 
 

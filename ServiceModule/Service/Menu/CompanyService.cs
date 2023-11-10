@@ -1,4 +1,5 @@
-﻿using DomainModule.Dto.Menu;
+﻿using DomainModule.Dto;
+using DomainModule.Dto.Menu;
 using DomainModule.Entity.Menu;
 using DomainModule.Exceptions;
 using DomainModule.RepositoryInterface;
@@ -27,33 +28,39 @@ namespace ServiceModule.Service.Menu
             _attachmentService = attachmentService;
         }
 
-        public int AddOrUpdate(CompanyCreateDto model)
+        public int AddOrUpdate(CompanyCreateDto model, AttachmentCreateDto? logoModel = null)
         {
             try
             {
                 using (var tx = _unitOfWork.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
                 {
                     var entity = new Company();
-                    if(model.Id > 0)
+                    if (model.Id > 0)
                     {
                         entity = _companyRepo.GetById(model.Id) ?? throw new CustomException("Company Not Found.");
                         ConfigueCompanyEntity(model, entity);
                         _companyRepo.Update(entity);
-
                     }
                     else
                     {
                         ConfigueCompanyEntity(model, entity);
                         _companyRepo.Insert(entity);
-
                     }
-                    tx.Commit();
                     _unitOfWork.Complete();
+
+                    if (logoModel != null)
+                    {
+                        entity.LogoId = _attachmentService.Create(logoModel);
+                        _companyRepo.Update(entity);
+                        _unitOfWork.Complete();
+                    }
+
+                    tx.Commit();
                     return entity.Id;
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -64,7 +71,6 @@ namespace ServiceModule.Service.Menu
             entity.Address = model.Address;
             entity.LandLineNumber = model.LandLineNumber;
             entity.MobileNumber = model.MobileNumber;
-            entity.LogoId = _attachmentService.Create(model.LogoModel);
             entity.Name = model.Name;
             entity.Description = model.Description;
             entity.Email = model.Email;

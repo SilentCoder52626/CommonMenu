@@ -1,0 +1,94 @@
+﻿@model CompanyTypeCreateDto
+<div class="container-fluid">
+    <div class="h3 mb-2 text-gray-800">
+        Create Company Type
+        @* <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="Menu/CompanyType/">Company Type</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Create</li>
+        </ol> *@
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="post"  class="MenuForm">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    @Html.TextBoxFor(a=>a.Name, new { @class="form-control required"})
+                                    @Html.ValidationMessageFor(a=>a.Name,"", new {@class = "text-danger"})
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <label>Code</label>
+                                    @Html.TextBoxFor(a=>a.Code, new { @class="form-control required"})
+                                    @Html.ValidationMessageFor(a=>a.Code,"", new {@class = "text-danger"})
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10">
+                                <input type="button" class="btn btn-success" id="save_btn" value="Save" />
+                                <a asp-action="Index" class="btn btn-primary">Back</a>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+            $("#save_btn").on('click', function (e) {
+                e.preventDefault();
+                let form = $(".MenuForm");
+                form.validate();
+
+                if (form.valid()) {
+
+                    let formData = {
+                        Name: $('#Name').val(),
+                        Code: $('#Code').val(),
+                    };
+                    $.ajax({
+                        type: form.attr('method'),
+                        url: "/api/companyType/create",
+                        contentType: 'application/json',
+                        data: JSON.stringify(formData),
+                        success: function (response) {
+                            console.log(response);
+                            if (response.StatusCode == 200) {
+                                ShowSuccessNotification(response.Message);
+
+                                setTimeout(function () {
+                                    window.location = "/Menu/CompanyType/";
+                                }, 2000);
+                                
+                            } else {
+                                ShowErrorNotification(response.Message);
+                            }
+                        },
+                        error: function (error) {
+                            ShowErrorNotification(error.responseText)
+                        }
+                    });
+                }
+            })
+        })
+    </script>
+}

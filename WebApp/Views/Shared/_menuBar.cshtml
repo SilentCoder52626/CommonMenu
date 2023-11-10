@@ -42,6 +42,19 @@
         </div>
     </li>
     <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMenu"
+           aria-expanded="true" aria-controls="collapseMenu">
+            <i class="fas fa-fw fa-list-alt"></i>
+            <span>Menu Config</span>
+        </a>
+        <div id="collapseMenu" class="collapse" aria-labelledby="headingMenu" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+               
+                <a class="collapse-item" asp-area="Menu" asp-controller="CompanyType" asp-action="Index">Company Type</a>
+            </div>
+        </div>
+    </li>
+    <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLog"
            aria-expanded="true" aria-controls="headingLog">
             <i class="fas fa-fw fa-chart"></i>

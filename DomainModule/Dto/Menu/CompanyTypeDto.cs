@@ -8,8 +8,12 @@ namespace DomainModule.Dto.Menu
 {
     public class CompanyTypeDto : CompanyTypeCreateDto
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         
+    }
+    public class CompanyTypeModel
+    {
+        public List<CompanyTypeDto> CompanyTypes { get; set; } = new List<CompanyTypeDto>();
     }
     public class CompanyTypeCreateDto
     {

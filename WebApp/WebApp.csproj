@@ -40,6 +40,8 @@
 
   <ItemGroup>
     <Folder Include="Areas\API\Models\" />
+    <Folder Include="Areas\Menu\Data\" />
+    <Folder Include="Areas\Menu\Models\" />
   </ItemGroup>
 
 </Project>

@@ -53,7 +53,7 @@ namespace ServiceModule.Service.Menu
             {
                 using (var tx = _unitOfWork.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
                 {
-                    var Type = _typeRepo.GetById(model.Id) ?? throw new CustomException("Company Type Not Found.");
+                    var Type = _typeRepo.GetById(model.Id.GetValueOrDefault()) ?? throw new CustomException("Company Type Not Found.");
 
                     ValidateCompanyCode(model.Code, model.Id);
                    
