@@ -1,0 +1,68 @@
+﻿@model CompanyModel
+
+<div class="container-fluid">
+    <div class="h3 mb-2 text-gray-800">
+        Company
+
+        <a class="btn btn-success" asp-area="Menu" asp-controller="Company" asp-action="AddOrUpdate">
+            <i class="fa fa-plus"></i>
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-bordered " id="ViewTable">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Logo</th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Mobile Number</th>
+                        <th>Email</th>
+                        <th>Website</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var i = 1;
+                    }
+                    @foreach (var data in Model.CompanyList)
+                    {
+                        <tr>
+                            <td>@i</td>
+                            <td>
+                                <img src="@data.LogoModel.Path" alt="@data.LogoModel.FileName" style="width: 200px; height: 100px;">
+                            </td>
+                            <td>@data.Name</td>
+                            <td>@data.Address</td>
+                            <td>@data.MobileNumber</td>
+                            <td>@data.Email</td>
+                            <td>
+                                @if (!String.IsNullOrEmpty(data.Website))
+                                {
+
+                                    <a href="@data.Website" target="_blank">Visit Site</a>
+                                }
+
+                            </td>
+                            <td>
+                                <a class="btn btn-warning" asp-area="Menu" asp-controller="Company" asp-action="AddOrUpdate" asp-route-id="@data.Id">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $("#ViewTable").DataTable();
+    </script>
+}

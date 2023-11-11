@@ -3,6 +3,7 @@ using System;
 using InfrastructureModule.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InfrastructureModule.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231111185718_FixNullableCOlumnForCompany")]
+    partial class FixNullableCOlumnForCompany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,7 +148,7 @@ namespace InfrastructureModule.Migrations
                     b.Property<DateTime>("DateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 11, 12, 1, 28, 2, 526, DateTimeKind.Local).AddTicks(4070))
+                        .HasDefaultValue(new DateTime(2023, 11, 12, 0, 42, 18, 665, DateTimeKind.Local).AddTicks(1200))
                         .HasColumnName("action_on");
 
                     b.Property<string>("IpAddress")
@@ -204,9 +207,10 @@ namespace InfrastructureModule.Migrations
                         .HasColumnName("company_type_id");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(1000)")
-                        .HasColumnName("description");
+                        .HasColumnName("desciption");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -219,8 +223,7 @@ namespace InfrastructureModule.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("land_line_number");
 
-                    b.Property<int?>("LogoId")
-                        .IsRequired()
+                    b.Property<int>("LogoId")
                         .HasColumnType("int")
                         .HasColumnName("logo");
 

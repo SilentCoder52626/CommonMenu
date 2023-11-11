@@ -27,17 +27,7 @@ namespace ServiceModule.Service
             try
             {
                 using var tx = _unitOfWork.BeginTransaction();
-
-                var Attachment = new Attachment()
-                {
-                    FileName = dto.FileName,
-                    Path = dto.Path,
-                    UploadedBy = dto.UploadedBy,
-                    UploadedDateTime = DateTime.Now
-                };
-                _attachmentRepo.Insert(Attachment);
-
-                _unitOfWork.Complete();
+                Attachment Attachment = CreateAttachment(dto);
                 tx.Commit();
                 return Attachment.Id;
             }
@@ -45,6 +35,27 @@ namespace ServiceModule.Service
             {
                 throw;
             }
+        }
+
+        private Attachment CreateAttachment(AttachmentCreateDto dto)
+        {
+            var Attachment = new Attachment()
+            {
+                FileName = dto.FileName,
+                Path = dto.Path,
+                UploadedBy = dto.UploadedBy,
+                UploadedDateTime = DateTime.Now
+            };
+            _attachmentRepo.Insert(Attachment);
+
+            _unitOfWork.Complete();
+            return Attachment;
+        }
+
+        public int CreateWihoutTransaction(AttachmentCreateDto dto)
+        {
+            Attachment Attachment = CreateAttachment(dto);
+            return Attachment.Id;
         }
 
         public bool Delete(int id)

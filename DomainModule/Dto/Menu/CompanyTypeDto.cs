@@ -20,4 +20,9 @@ namespace DomainModule.Dto.Menu
         public string? Name { get; set; }
         public string? Code { get; set; }
     }
+    public class CompanyTypeDropDownModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
 }

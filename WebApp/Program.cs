@@ -49,7 +49,7 @@ builder.Services.AddHangfireServer();
 // Add services to the container.
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<AppDbContext>();
-builder.Services.AddIdentity<User, IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole>()	
 	.AddEntityFrameworkStores<AppDbContext>()
 	.AddDefaultTokenProviders()
 	.AddTokenProvider<CustomEmailTokenProvider<User>>(CustomEmailTokenProposeString);

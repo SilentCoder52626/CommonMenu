@@ -60,7 +60,7 @@ namespace WebApp.Areas.API.Controllers
         }
         [Authorize(Policy = "Company-Create")]
         [HttpPost("create")]
-        public IActionResult Create(CompanyCreateDto model,IFormFile? file=null)
+        public IActionResult Create([FromForm] CompanyCreateDto model)
         {
             try
             {
@@ -73,20 +73,20 @@ namespace WebApp.Areas.API.Controllers
                 }
                 else
                 {
-                    if (file == null)
+                    if (model.file == null)
                     {
                         throw new CustomException("Company Logo is needed to create company.");
                     }
                 }
                 AttachmentCreateDto? attachmentCreateDto = null;
-                if (file != null)
+                if (model.file != null)
                 {
-                    attachmentCreateDto = ConfigureAttachmentCreateModel(file);
+                    attachmentCreateDto = ConfigureAttachmentCreateModel(model.file);
                 }
 
                 var comapnyId = _companyService.AddOrUpdate(model, attachmentCreateDto);
 
-                if (action == "Update" && file != null)
+                if (action == "Update" && model.file != null)
                 {
                     if (System.IO.File.Exists(currentFilePath))
                     {
@@ -108,7 +108,7 @@ namespace WebApp.Areas.API.Controllers
         private AttachmentCreateDto ConfigureAttachmentCreateModel(IFormFile? file)
         {
             var FileDir = "Attachments";
-            string FullDir = Path.Combine(_hostingEnv.ContentRootPath, FileDir);
+            string FullDir = Path.Combine(_hostingEnv.WebRootPath, FileDir);
 
 
             if (!Directory.Exists(FullDir))
@@ -130,7 +130,7 @@ namespace WebApp.Areas.API.Controllers
             {
                 FileName = fileName,
                 UploadedDateTime = DateTime.Now,
-                Path = filePath,
+                Path = $"/{FileDir}/{fileName}",
                 UploadedBy = this.GetCurrentUserId()
             };
         }

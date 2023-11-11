@@ -39,22 +39,17 @@ namespace ServiceModule.Service.Menu
                     {
                         entity = _companyRepo.GetById(model.Id) ?? throw new CustomException("Company Not Found.");
                         ConfigueCompanyEntity(model, entity);
+                        ConfigureLogo(logoModel, entity);
+
                         _companyRepo.Update(entity);
                     }
                     else
                     {
                         ConfigueCompanyEntity(model, entity);
+                        ConfigureLogo(logoModel, entity);
                         _companyRepo.Insert(entity);
                     }
                     _unitOfWork.Complete();
-
-                    if (logoModel != null)
-                    {
-                        entity.LogoId = _attachmentService.Create(logoModel);
-                        _companyRepo.Update(entity);
-                        _unitOfWork.Complete();
-                    }
-
                     tx.Commit();
                     return entity.Id;
 
@@ -63,6 +58,15 @@ namespace ServiceModule.Service.Menu
             catch (Exception ex)
             {
                 throw;
+            }
+        }
+
+        private void ConfigureLogo(AttachmentCreateDto? logoModel, Company entity)
+        {
+            if (logoModel != null)
+            {
+                entity.LogoId = _attachmentService.CreateWihoutTransaction(logoModel);
+
             }
         }
 

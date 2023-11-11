@@ -14,3 +14,9 @@ function ShowErrorNotification( message) {
 function ShowWarningNotification( message) {
     toastr["warning"](message)
 }
+
+$(document).ready(function () {
+    $('.drop-down').select2({
+        placeholder: '--Select--'
+    });
+});

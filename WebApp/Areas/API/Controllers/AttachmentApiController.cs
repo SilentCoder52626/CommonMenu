@@ -122,7 +122,7 @@ namespace WebApp.Areas.API.Controllers
                 {
                     FileName = fileName,
                     UploadedDateTime = DateTime.Now,
-                    Path = filePath,
+                    Path = $"/{FileDir}/{fileName}",
                     UploadedBy = this.GetCurrentUserId()
                 });
 
@@ -134,7 +134,7 @@ namespace WebApp.Areas.API.Controllers
                     {
                         FileName = fileName,
                         AttachmentId = attachmentId,
-                        FilePath = filePath
+                        Path = $"/{FileDir}/{fileName}",
                     }
 
                 });

@@ -1,4 +1,5 @@
-﻿using DomainModule.Dto.Menu;
+﻿using DomainModule.Dto;
+using DomainModule.Dto.Menu;
 using DomainModule.Entity.Menu;
 using DomainModule.RepositoryInterface.Menu;
 using InfrastructureModule.Context;
@@ -14,6 +15,15 @@ namespace InfrastructureModule.Repository.Menu
     {
         public CompanyTypeRepository(AppDbContext context) : base(context)
         {
+        }
+
+        public List<GenericDropdownDto> GetCompanyTypeDropDown()
+        {
+            return GetQueryable().Select(a => new GenericDropdownDto()
+            {
+                Id = a.Id,
+                Name = a.Name
+            }).ToList();
         }
 
         public CompanyTypeModel GetCompanyTypeModel()

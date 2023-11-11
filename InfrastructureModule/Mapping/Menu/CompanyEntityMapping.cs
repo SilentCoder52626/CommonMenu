@@ -48,9 +48,8 @@ namespace InfrastructureModule.Mapping.Menu
                     .HasMaxLength(500);
             builder
                    .Property(a => a.Description)
-                   .HasColumnName("desciption")
-                   .HasMaxLength(1000)
-                   .IsRequired();
+                   .HasColumnName("description")
+                   .HasMaxLength(1000);
             builder
                    .Property(a => a.LogoId)
                    .HasColumnName("logo")

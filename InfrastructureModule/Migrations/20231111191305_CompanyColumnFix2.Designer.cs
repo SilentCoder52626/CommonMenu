@@ -3,6 +3,7 @@ using System;
 using InfrastructureModule.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InfrastructureModule.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231111191305_CompanyColumnFix2")]
+    partial class CompanyColumnFix2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,7 +148,7 @@ namespace InfrastructureModule.Migrations
                     b.Property<DateTime>("DateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 11, 12, 1, 28, 2, 526, DateTimeKind.Local).AddTicks(4070))
+                        .HasDefaultValue(new DateTime(2023, 11, 12, 0, 58, 5, 202, DateTimeKind.Local).AddTicks(3874))
                         .HasColumnName("action_on");
 
                     b.Property<string>("IpAddress")
@@ -220,7 +223,6 @@ namespace InfrastructureModule.Migrations
                         .HasColumnName("land_line_number");
 
                     b.Property<int?>("LogoId")
-                        .IsRequired()
                         .HasColumnType("int")
                         .HasColumnName("logo");
 
@@ -603,9 +605,7 @@ namespace InfrastructureModule.Migrations
 
                     b.HasOne("DomainModule.Entity.Attachment", "Attachment")
                         .WithMany()
-                        .HasForeignKey("LogoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("LogoId");
 
                     b.Navigation("Attachment");
 
