@@ -134,9 +134,8 @@
                             console.log(response);
                             if (response.StatusCode == 200) {
                                 ShowSuccessNotification(response.Message);
-
                                 setTimeout(function () {
-                                    window.location = '/Menu/Company/';
+                                    window.location = '/Menu/Company/AddOrUpdate?id=' + response.Data.Id;
                                 }, 2000);
                             } else {
                                 ShowErrorNotification(response.Message);

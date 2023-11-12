@@ -8,11 +8,11 @@ namespace DomainModule.Entity.Menu
 {
     public class MenuCategory
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Status { get; set; }
-        public ICollection<MenuCategoryImages> Images { get; set; }
-        public ICollection<Item> Items { get; set; }
+        public virtual int Id { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string Description { get; set; }
+        public virtual string Status { get; set; }
+        public virtual ICollection<MenuCategoryImages> Images { get; set; } = new List<MenuCategoryImages>();
+        public virtual ICollection<Item> Items { get; set; } = new List<Item>();
     }
 }

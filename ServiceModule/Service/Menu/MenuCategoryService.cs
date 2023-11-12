@@ -78,7 +78,7 @@ namespace ServiceModule.Service.Menu
                     {
                         entity.Images.Add(new MenuCategoryImages()
                         {
-                            AttachmentId = _attachmentService.Create(image),
+                            AttachmentId = _attachmentService.CreateWihoutTransaction(image),
                             CategoryId = entity.Id,
                         });
                     }
@@ -102,7 +102,7 @@ namespace ServiceModule.Service.Menu
                 using (var tx = _unitOfWork.BeginTransaction(System.Data.IsolationLevel.ReadCommitted))
                 {
                     var entity = _menuCategoryRepo.GetById(id) ?? throw new CustomException("Menu category not found.");
-                    entity.Status = Status.Active.ToString();
+                    entity.Status = Status.InActive.ToString();
                     _menuCategoryRepo.Update(entity);
 
                     _unitOfWork.Complete();

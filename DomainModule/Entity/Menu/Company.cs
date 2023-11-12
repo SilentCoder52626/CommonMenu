@@ -9,17 +9,17 @@ namespace DomainModule.Entity.Menu
 {
     public class Company
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string MobileNumber { get; set; }
-        public string? LandLineNumber { get; set; }
-        public string Address { get; set; }
-        public string Email { get; set; }
-        public string? Website { get; set; }
-        public string? Description { get; set; }
-        public int? LogoId { get; set; }
-        public Attachment Attachment { get; set; }
-        public int CompanyTypeId { get; set; }
-        public CompanyType CompanyType { get; set; }
+        public virtual int Id { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string MobileNumber { get; set; }
+        public virtual string? LandLineNumber { get; set; }
+        public virtual string Address { get; set; }
+        public virtual string Email { get; set; }
+        public virtual string? Website { get; set; }
+        public virtual string? Description { get; set; }
+        public virtual int? LogoId { get; set; }
+        public virtual Attachment Attachment { get; set; }
+        public virtual int CompanyTypeId { get; set; }
+        public virtual CompanyType CompanyType { get; set; }
     }
 }

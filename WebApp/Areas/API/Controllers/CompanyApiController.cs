@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Extensions;
+using WebApp.Helper;
 using WebApp.Models;
 
 namespace WebApp.Areas.API.Controllers
@@ -84,7 +85,7 @@ namespace WebApp.Areas.API.Controllers
                     attachmentCreateDto = ConfigureAttachmentCreateModel(model.file);
                 }
 
-                var comapnyId = _companyService.AddOrUpdate(model, attachmentCreateDto);
+                var CompanyId = _companyService.AddOrUpdate(model, attachmentCreateDto);
 
                 if (action == "Update" && model.file != null)
                 {
@@ -97,10 +98,15 @@ namespace WebApp.Areas.API.Controllers
                 {
                     StatusCode = StatusCodes.Status200OK,
                     Message = "Company Created Successfully",
+                    Data = new
+                    {
+                        Id  = CompanyId
+                    }
                 });
             }
             catch (Exception ex)
             {
+                CommonLogger.LogError(ex.Message, ex);
                 return BadRequest(ex.Message);
             }
         }

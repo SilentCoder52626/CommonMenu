@@ -58,7 +58,7 @@ namespace WebApp.Areas.API.Controllers
                 if (result)
                 {
                     var FileDir = "Attachments";
-                    string FullDir = Path.Combine(_hostingEnv.ContentRootPath, FileDir);
+                    string FullDir = Path.Combine(_hostingEnv.WebRootPath, FileDir);
                     var filePath = Path.Combine(FullDir, file.FileName);
 
                     if (System.IO.File.Exists(filePath))
@@ -100,7 +100,7 @@ namespace WebApp.Areas.API.Controllers
             {
 
                 var FileDir = "Attachments";
-                string FullDir = Path.Combine(_hostingEnv.ContentRootPath, FileDir);
+                string FullDir = Path.Combine(_hostingEnv.WebRootPath, FileDir);
 
 
                 if (!Directory.Exists(FullDir))

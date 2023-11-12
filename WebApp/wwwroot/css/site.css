@@ -5,15 +5,15 @@
     align-items: center;
 }
 
-.typewriter h1 {
-    width: 24ch;
-    animation: typing 3s steps(27), blink .5s step-end infinite alternate;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 3px solid;
-    font-family: monospace;
-    font-size: 5vh;
-}
+    .typewriter h1 {
+        width: 24ch;
+        animation: typing 3s steps(27), blink .5s step-end infinite alternate;
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: 3px solid;
+        font-family: monospace;
+        font-size: 5vh;
+    }
 
 @keyframes typing {
     from {
@@ -28,3 +28,40 @@
 }
 
 
+/*Image container*/
+.image-container {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+    width: calc(30%);
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    max-height: 300px;
+    overflow: hidden;
+}
+
+    .image-container .remove-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: none;
+        cursor: pointer;
+        background-color: rgba(255, 0, 0, 0.7);
+        padding: 5px;
+    }
+
+    .image-container:hover .remove-button {
+        display: block;
+    }
+
+    .image-container img {
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}

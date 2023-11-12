@@ -66,6 +66,14 @@ namespace DomainModule.Dto
                     "Create",
                     "Status"
                 }
+            },
+            {
+                "MenuCategory", new List<string>
+                {
+                    "View",
+                    "AddOrUpdate",
+                    "Status"
+                }
             }
         };
 

@@ -8,9 +8,9 @@ namespace DomainModule.Entity.Menu
 {
     public class CompanyType
     {
-        public int Id { get; set; }
-        public string? Name { get; set; }
-        public string? Code { get; set; }
-        public ICollection<Company> Companies { get; set; }
+        public virtual int Id { get; set; }
+        public virtual string? Name { get; set; }
+        public virtual string? Code { get; set; }
+        public virtual ICollection<Company> Companies { get; set; }
     }
 }

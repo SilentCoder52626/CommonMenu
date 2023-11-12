@@ -8,7 +8,7 @@ namespace DomainModule.Dto
 {
     public class AttachmentDto : AttachmentUpdateDto
     {
-        public string UploadByName { get; set; }
+        public string? UploadByName { get; set; }
     }
     public class AttachmentCreateDto
     {
