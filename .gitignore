@@ -399,4 +399,4 @@ FodyWeavers.xsd
 
 #Attachments
 
-WebApp/Attachments/
+WebApp/wwwroot/Attachments/
