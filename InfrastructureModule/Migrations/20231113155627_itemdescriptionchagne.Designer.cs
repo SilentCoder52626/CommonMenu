@@ -3,6 +3,7 @@ using System;
 using InfrastructureModule.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InfrastructureModule.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231113155627_itemdescriptionchagne")]
+    partial class itemdescriptionchagne
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,7 +151,7 @@ namespace InfrastructureModule.Migrations
                     b.Property<DateTime>("DateTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime(6)")
-                        .HasDefaultValue(new DateTime(2023, 11, 13, 21, 53, 56, 263, DateTimeKind.Local).AddTicks(555))
+                        .HasDefaultValue(new DateTime(2023, 11, 13, 21, 41, 27, 637, DateTimeKind.Local).AddTicks(1604))
                         .HasColumnName("action_on");
 
                     b.Property<string>("IpAddress")
@@ -290,7 +293,7 @@ namespace InfrastructureModule.Migrations
                         .HasColumnType("varchar(1000)")
                         .HasColumnName("description");
 
-                    b.Property<int?>("ImageId")
+                    b.Property<int>("ImageId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -624,7 +627,9 @@ namespace InfrastructureModule.Migrations
 
                     b.HasOne("DomainModule.Entity.Attachment", "Image")
                         .WithMany()
-                        .HasForeignKey("ImageId");
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Category");
 

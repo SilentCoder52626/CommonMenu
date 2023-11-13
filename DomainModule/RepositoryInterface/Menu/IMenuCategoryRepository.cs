@@ -1,4 +1,5 @@
 ﻿using DomainModule.BaseRepo;
+using DomainModule.Dto;
 using DomainModule.Dto.Menu;
 using DomainModule.Entity.Menu;
 using System;
@@ -12,5 +13,6 @@ namespace DomainModule.RepositoryInterface.Menu
     public interface IMenuCategoryRepository : BaseRepositoryInterface<MenuCategory>
     {
         MenuCategoryModel GetAllMenuCategory();
+        List<GenericDropdownDto> GetMenuCategoryDropDown();
     }
 }

@@ -1,0 +1,131 @@
+﻿@using DomainModule.Enums;
+@model ItemModel
+
+<div class="container-fluid">
+    <div class="h3 mb-2 text-gray-800">
+        Item
+
+        <a class="btn btn-success" asp-area="Menu" asp-controller="Item" asp-action="AddOrUpdate">
+            <i class="fa fa-plus"></i>
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-bordered " id="ViewTable">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var i = 1;
+                    }
+                    @foreach (var data in Model.Items)
+                    {
+                        <tr>
+                            <td>@i</td>
+                           
+                            <td>@data.Name</td>
+                            <td>@data.Price</td>
+                            <td>
+                                @if (data.Status == Status.Active.ToString())
+                                {
+                                    <span class="badge badge-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-danger">InActive</span>
+                                }
+
+                            </td>
+                            <td>
+                                <a class="btn btn-warning" asp-area="Menu" asp-controller="Item" asp-action="AddOrUpdate" asp-route-id="@data.Id">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                @if (data.Status == Status.Active.ToString())
+                                {
+                                    <span class="btn btn-danger" id="deactivate_item" data-id="@data.Id">
+                                        <i class="fa fa-thumbs-down"></i>
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="btn btn-success" id="activate_item" data-id="@data.Id">
+                                        <i class="fa fa-thumbs-up"></i>
+                                    </span>
+                                }
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $("#ViewTable").DataTable();
+
+        $("#activate_item").on("click", function (e) {
+            e.preventDefault();
+
+            var ItemId = $(this).data("id");
+            var data = { ItemId: ItemId };
+            $.ajax({
+                method: 'POST',
+                url: '/api/Item/Activate',
+                data: data,
+                success: function (response) {
+                    if (response.StatusCode == 200) {
+                        ShowSuccessNotification(response.Message);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    }
+                    else {
+                        ShowErrorNotification(response.Message);
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                    ShowErrorNotification(error.responseText);
+                }
+            });
+        })
+        $("#deactivate_item").on("click", function (e) {
+            e.preventDefault();
+
+            var ItemId = $(this).data("id");
+            var data = { ItemId: ItemId };
+
+            $.ajax({
+                method: 'POST',
+                url: '/api/Item/DeActivate',
+                data: data,
+                success: function (response) {
+                    if (response.StatusCode == 200) {
+                        ShowSuccessNotification(response.Message);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    }
+                    else {
+                        ShowInfoNotification(response.Message);
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                    ShowErrorNotification(error.responseText);
+                }
+            });
+        })
+    </script>
+}

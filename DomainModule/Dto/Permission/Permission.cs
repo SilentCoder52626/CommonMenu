@@ -74,6 +74,14 @@ namespace DomainModule.Dto
                     "AddOrUpdate",
                     "Status"
                 }
+            },
+            {
+                "Item", new List<string>
+                {
+                    "View",
+                    "AddOrUpdate",
+                    "Status"
+                }
             }
         };
 

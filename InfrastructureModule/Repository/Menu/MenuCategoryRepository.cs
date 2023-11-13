@@ -1,6 +1,7 @@
 ﻿using DomainModule.Dto;
 using DomainModule.Dto.Menu;
 using DomainModule.Entity.Menu;
+using DomainModule.Enums;
 using DomainModule.RepositoryInterface.Menu;
 using InfrastructureModule.Context;
 using System;
@@ -39,6 +40,15 @@ namespace InfrastructureModule.Repository.Menu
                 MenuCategories = datas
             };
             return model;
+        }
+
+        public List<GenericDropdownDto> GetMenuCategoryDropDown()
+        {
+            return GetQueryable().Where(a => a.Status == Status.Active.ToString()).Select(a => new GenericDropdownDto()
+            {
+                Id = a.Id,
+                Name = a.Name
+            }).ToList();
         }
     }
 }

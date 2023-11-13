@@ -65,14 +65,16 @@ namespace ServiceModule.Service.Menu
                     else
                     {
                         ConfigureItemEntity(model, entity);
+                        entity.Status = Status.Active.ToString();
                         _itemRepo.Insert(entity);
                     }
                     _unitOfWork.Complete();
                     if(model.Image != null && !String.IsNullOrEmpty(model.Image.FileName))
                     {
-                        var currentAttachmentId = entity.ImageId;
+                        var currentAttachmentId = entity.ImageId.GetValueOrDefault();
                         entity.ImageId = _attachmentService.CreateWihoutTransaction(model.Image);
-                        _attachmentService.DeleteWithoutTransasction(currentAttachmentId);
+                        if (currentAttachmentId > 0)
+                            _attachmentService.DeleteWithoutTransasction(currentAttachmentId);
                     }
                     _unitOfWork.Complete();
                     tx.Commit();

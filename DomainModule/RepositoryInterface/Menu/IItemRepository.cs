@@ -1,4 +1,5 @@
 ﻿using DomainModule.BaseRepo;
+using DomainModule.Dto.Menu;
 using DomainModule.Entity.Menu;
 using System;
 using System.Collections.Generic;
@@ -10,5 +11,6 @@ namespace DomainModule.RepositoryInterface.Menu
 {
     public interface IItemRepository : BaseRepositoryInterface<Item>
     {
+        ItemModel GetAllItem();
     }
 }
