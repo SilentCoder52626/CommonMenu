@@ -71,8 +71,8 @@ namespace ServiceModule.Service.Menu
                     if(model.Image != null && !String.IsNullOrEmpty(model.Image.FileName))
                     {
                         var currentAttachmentId = entity.ImageId;
-                        entity.ImageId = _attachmentService.Create(model.Image);
-                        _attachmentService.Delete(currentAttachmentId);
+                        entity.ImageId = _attachmentService.CreateWihoutTransaction(model.Image);
+                        _attachmentService.DeleteWithoutTransasction(currentAttachmentId);
                     }
                     _unitOfWork.Complete();
                     tx.Commit();

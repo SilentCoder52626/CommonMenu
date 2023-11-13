@@ -65,7 +65,13 @@ namespace ServiceModule.Service.Menu
         {
             if (logoModel != null)
             {
+                var currentAttachmentId = entity.LogoId.GetValueOrDefault();
+
                 entity.LogoId = _attachmentService.CreateWihoutTransaction(logoModel);
+                if (currentAttachmentId > 0)
+                {
+                    _attachmentService.DeleteWithoutTransasction(currentAttachmentId);
+                }
 
             }
         }

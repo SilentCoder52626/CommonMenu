@@ -13,5 +13,6 @@ namespace DomainModule.ServiceInterface
         int Create(AttachmentCreateDto dto);
         int CreateWihoutTransaction(AttachmentCreateDto dto);
         bool Delete(int id);
+        bool DeleteWithoutTransasction(int id);
     }
 }

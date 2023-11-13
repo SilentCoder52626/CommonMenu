@@ -75,6 +75,21 @@ namespace ServiceModule.Service
                 throw;
             }
         }
-        
+
+        public bool DeleteWithoutTransasction(int id)
+        {
+            try
+            {
+
+                var Attachment = _attachmentRepo.GetById(id) ?? throw new CustomException("Attachment not found.");
+                _attachmentRepo.Delete(Attachment);
+                _unitOfWork.Complete();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
