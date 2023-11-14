@@ -49,6 +49,15 @@ namespace WebApp.Areas.Account.Controllers
 
 			return View(loginModel);
 		}
+		public async Task<IActionResult> Register(string ReturnUrl = "/Home/Index")
+		{
+			var userModel = new UserViewModel()
+			{
+				
+			};
+
+			return View(userModel);
+		}
 
 		[HttpPost]
 		public async Task<IActionResult> Login(LoginViewModel model)
@@ -96,10 +105,6 @@ namespace WebApp.Areas.Account.Controllers
 			return RedirectToAction(nameof(Login));
 		}
 
-		public ActionResult Register()
-		{
-			return View();
-		}
 
 		[HttpPost]
 		public async Task<IActionResult> Register(UserRegisterViewModel model)
@@ -121,14 +126,14 @@ namespace WebApp.Areas.Account.Controllers
 				var userReponse = await _userService.Create(createDto);
 
 				_notify.AddSuccessToastMessage("Created succesfully. Please Confirm your account");
-				return RedirectToAction(nameof(Index));
+				return RedirectToAction(nameof(Login));
 			}
 			catch (Exception ex)
 			{
 				_notify.AddErrorToastMessage(ex.Message);
 
 			}
-			return RedirectToAction(nameof(Index));
+			return RedirectToAction(nameof(Login));
 
 		}
 

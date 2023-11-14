@@ -70,7 +70,7 @@ namespace WebApp.Areas.Account.Controllers
         public async Task<IActionResult> Create()
         {
             var roles = await _roleManager.Roles.Where(a => a.Name != "SuperAdmin").ToListAsync();
-            ViewBag.RoleList = new SelectList(roles, "Id", "Name");
+            ViewBag.RoleList = new SelectList(roles, "Name", "Name");
             return View();
         }
         [HttpPost]

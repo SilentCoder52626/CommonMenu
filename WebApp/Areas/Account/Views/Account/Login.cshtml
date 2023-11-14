@@ -147,9 +147,13 @@
                 margin-right: 4px;
             }
 
-        .text-danger span{
-            color:red;
-            font-size:12px;
+        .text-danger span {
+            color: red;
+            font-size: 12px;
+        }
+
+        p {
+            font: 12px;
         }
     </style>
 </head>
@@ -170,6 +174,8 @@
         @Html.ValidationMessageFor(a=>a.Password,"",new{@class="text-danger"})
 
         <button type="submit">Log In</button>
+        <br />
+        <p>Don't have an account? <a asp-action="Register" asp-area="Account" asp-controller="Account">Sign Up</a></p>
 
     </form>
     <!-- Bootstrap core JavaScript-->
