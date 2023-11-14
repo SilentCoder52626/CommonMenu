@@ -1,7 +1,14 @@
 ﻿using DomainModule.Entity;
+using DomainModule.Entity.Menu;
+using DomainModule.Enums;
+using DomainModule.Service;
+using DomainModule.ServiceInterface;
 using InfrastructureModule.Context;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WebApp.DefaultDataSeeder
 {
@@ -16,15 +23,38 @@ namespace WebApp.DefaultDataSeeder
                 context.Database.EnsureCreated();
                 var RoleSuperAdmin = User.TypeSuperAdmin;
                 var RoleGeneral = User.TypeGeneral;
+
+                var Permissions = new List<string>()
+                {
+                    "Attachment-Upload",
+                    "Attachment-View",
+                    "Company-Create",
+                    "Company-Status",
+                    "Company-View",
+                    "Item-View",
+                    "Item-AddOrUpdate",
+                    "Item-Status",
+                    "MenuCategory-View",
+                    "MenuCategory-AddOrUpdate",
+                    "MenuCategory-Status",
+                    "User-ResetPassword",
+                    "User-Update",
+
+                };
                 //Roles
                 var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var roleService = serviceScope.ServiceProvider.GetRequiredService<RoleServiceInterface>();
 
                 if (!await roleManager.RoleExistsAsync(RoleSuperAdmin))
                     await roleManager.CreateAsync(new IdentityRole(RoleSuperAdmin));
-                
+
                 if (!await roleManager.RoleExistsAsync(RoleGeneral))
+                {
                     await roleManager.CreateAsync(new IdentityRole(RoleGeneral));
-               
+                    await roleService.AssignPermissionInBulk(RoleGeneral, Permissions);
+
+                }
+
                 //Users
                 var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
                 string adminUserEmail = "admin@gmail.com";
