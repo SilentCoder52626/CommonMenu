@@ -40,6 +40,10 @@ namespace InfrastructureModule.Mapping.Menu
                 .WithMany(a=>a.Items)
                 .HasForeignKey(a=>a.CategoryId);
             builder
+                .HasOne(a => a.Company)
+                .WithMany(a=>a.Items)
+                .HasForeignKey(a=>a.CompanyId);
+            builder
                 .HasOne(a => a.Image)
                 .WithMany()
                 .HasForeignKey(a=>a.ImageId);

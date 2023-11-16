@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Asn1.X509;
+﻿using DomainModule.ServiceInterface.Menu;
+using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,8 @@ namespace DomainModule.Entity.Menu
         public virtual Attachment Attachment { get; set; }
         public virtual int CompanyTypeId { get; set; }
         public virtual CompanyType CompanyType { get; set; }
+        public virtual string CreatedBy { get; set; }
+        public virtual List<Item> Items { get; set; } = new List<Item>();
+        
     }
 }

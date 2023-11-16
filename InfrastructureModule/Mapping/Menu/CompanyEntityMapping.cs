@@ -51,6 +51,10 @@ namespace InfrastructureModule.Mapping.Menu
                    .HasColumnName("description")
                    .HasMaxLength(1000);
             builder
+                   .Property(a => a.CreatedBy)
+                   .HasColumnName("created_by")
+                   .HasMaxLength(1000);
+            builder
                    .Property(a => a.LogoId)
                    .HasColumnName("logo")
                    .IsRequired();
@@ -66,6 +70,10 @@ namespace InfrastructureModule.Mapping.Menu
                 .HasOne(a => a.CompanyType)
                 .WithMany(a => a.Companies)
                 .HasForeignKey(a => a.CompanyTypeId);
+            builder
+                .HasMany(a => a.Items)
+                .WithOne(a => a.Company)
+                .HasForeignKey(a => a.CompanyId);
                 
         }
     }

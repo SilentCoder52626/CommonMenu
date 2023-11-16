@@ -16,7 +16,9 @@ namespace DomainModule.Entity.Menu
         public virtual int CategoryId { get; set; }
         public virtual MenuCategory Category { get; set; }
         public virtual int? ImageId { get; set; }
-        public virtual Attachment? Image { get; set; } 
+        public virtual Attachment? Image { get; set; }
+        public virtual int CompanyId {get; set;}
+        public virtual Company Company {get; set;}
 
     }
 }
