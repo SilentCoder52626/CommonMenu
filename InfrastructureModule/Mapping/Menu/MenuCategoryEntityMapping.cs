@@ -34,6 +34,11 @@ namespace InfrastructureModule.Mapping.Menu
                    .HasColumnName("description")
                    .HasMaxLength(1000);
             builder
+                .HasOne(a => a.Company)
+                .WithMany(a => a.MenuCategories)
+                .HasForeignKey(a => a.CompanyId)
+                .IsRequired();
+            builder
                 .HasMany(a => a.Images)
                 .WithOne(a => a.Category)
                 .HasForeignKey(a => a.CategoryId);

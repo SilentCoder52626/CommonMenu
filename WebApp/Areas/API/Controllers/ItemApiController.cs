@@ -49,6 +49,8 @@ namespace WebApp.Areas.API.Controllers
                 Category = a.Category.Name,
                 CategoryId = a.CategoryId,
                 Price = a.Price,
+                CompanyId = a.CompanyId,
+                Company = a.Company.Name,
                 Status = a.Status
             }).ToList();
 

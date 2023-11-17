@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NToastNotify;
 using System.Runtime.CompilerServices;
+using WebApp.Extensions;
 using WebApp.Helper;
 
 namespace WebApp.Areas.Menu.Controllers
@@ -15,17 +16,21 @@ namespace WebApp.Areas.Menu.Controllers
     public class MenuCategoryController : Controller
     {
         private readonly IMenuCategoryRepository _menuCategoryRepo;
+        private readonly ICompanyRepository _companyRepo;
         private readonly IToastNotification _notify;
 
-        public MenuCategoryController(IMenuCategoryRepository MenuCategoryRepo, IToastNotification notify)
+        public MenuCategoryController(IMenuCategoryRepository MenuCategoryRepo, IToastNotification notify, ICompanyRepository companyRepo)
         {
             _menuCategoryRepo = MenuCategoryRepo;
             _notify = notify;
+            _companyRepo = companyRepo;
         }
 
         public IActionResult Index()
         {
-            var model = _menuCategoryRepo.GetAllMenuCategory();
+            var userId = GetCurrentUserExtension.GetCurrentUserId(this);
+
+            var model = _menuCategoryRepo.GetAllMenuCategory(userId);
             return View(model);
         }
 
@@ -33,6 +38,9 @@ namespace WebApp.Areas.Menu.Controllers
         {
             try
             {
+                var userId = GetCurrentUserExtension.GetCurrentUserId(this);
+                ViewBag.Companies = _companyRepo.GetCompanyDropDown(userId);
+
                 if (id.GetValueOrDefault() > 0)
                 {
                     var entity = _menuCategoryRepo.GetById(id.GetValueOrDefault()) ?? throw new CustomException("MenuCategory Not Found.");
@@ -41,7 +49,7 @@ namespace WebApp.Areas.Menu.Controllers
                         Id = entity.Id,
                         Name = entity.Name,
                         Description = entity.Description,
-
+                        CompanyId = entity.CompanyId,
                     };
                     if(entity.Images!= null)
                     {

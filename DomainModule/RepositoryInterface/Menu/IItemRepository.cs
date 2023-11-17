@@ -11,6 +11,6 @@ namespace DomainModule.RepositoryInterface.Menu
 {
     public interface IItemRepository : BaseRepositoryInterface<Item>
     {
-        ItemModel GetAllItem();
+        ItemModel GetAllItem(string userId);
     }
 }

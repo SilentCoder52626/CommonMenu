@@ -16,7 +16,6 @@ namespace DomainModule.Dto.Menu
     {
 
         public string CompanyType { get; set; }
-        public AttachmentCreateDto LogoModel {get; set;}
 
     }
     public class CompanyCreateDto
@@ -30,6 +29,9 @@ namespace DomainModule.Dto.Menu
         public string? Website { get; set; }
         public string? Description { get; set; }
         public int CompanyTypeId { get; set; }
+        public string? CreatedBy { get; set; }
         public IFormFile? file { get; set; }
+        public AttachmentCreateDto? LogoModel { get; set; }
+
     }
 }

@@ -15,6 +15,7 @@ namespace DomainModule.Dto.Menu
     public class ItemDto : ItemCreateDto
     {
         public string Category { get; set; }
+        public string Company { get; set; }
         public string Status { get; set; }
 
 
@@ -26,6 +27,7 @@ namespace DomainModule.Dto.Menu
         public string? Description { get; set; }
         public string Price { get; set; }
         public int CategoryId { get; set; }
+        public int CompanyId { get; set; }
         public AttachmentCreateDto? Image { get; set; }
         public IFormFile? file { get; set; }
 

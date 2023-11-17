@@ -16,6 +16,7 @@
                     <tr>
                         <th>SN</th>
                         <th>Name</th>
+                        <th>Code</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -28,6 +29,7 @@
                         <tr>
                             <td>@i</td>
                             <td>@data.Name</td>
+                            <td>@data.Code</td>
                             <td>
                                 <a class="btn btn-warning" asp-area="Menu" asp-controller="CompanyType" asp-action="Update" asp-route-id="@data.Id">
                                     <i class="fas fa-edit"></i> 

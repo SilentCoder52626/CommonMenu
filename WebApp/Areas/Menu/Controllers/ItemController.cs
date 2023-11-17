@@ -1,4 +1,5 @@
-﻿using DomainModule.Dto;
+﻿using Castle.Components.DictionaryAdapter.Xml;
+using DomainModule.Dto;
 using DomainModule.Dto.Menu;
 using DomainModule.Exceptions;
 using DomainModule.RepositoryInterface.Menu;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NToastNotify;
 using System.Runtime.CompilerServices;
+using WebApp.Extensions;
 using WebApp.Helper;
 
 namespace WebApp.Areas.Menu.Controllers
@@ -17,18 +19,21 @@ namespace WebApp.Areas.Menu.Controllers
     {
         private readonly IItemRepository _ItemRepo;
         private readonly IMenuCategoryRepository _meunCategoryRepo;
+        private readonly ICompanyRepository _companyRepo;
         private readonly IToastNotification _notify;
 
-        public ItemController(IItemRepository ItemRepo, IToastNotification notify, IMenuCategoryRepository MeunCategoryRepo)
+        public ItemController(IItemRepository ItemRepo, IToastNotification notify, IMenuCategoryRepository MeunCategoryRepo, ICompanyRepository companyRepo)
         {
             _ItemRepo = ItemRepo;
             _notify = notify;
             _meunCategoryRepo = MeunCategoryRepo;
+            _companyRepo = companyRepo;
         }
 
         public IActionResult Index()
         {
-            var model = _ItemRepo.GetAllItem();
+            var userId = GetCurrentUserExtension.GetCurrentUserId(this);
+            var model = _ItemRepo.GetAllItem(userId);
             return View(model);
         }
 
@@ -36,7 +41,10 @@ namespace WebApp.Areas.Menu.Controllers
         {
             try
             {
-                ViewBag.MeunCategories = _meunCategoryRepo.GetMenuCategoryDropDown();
+                var userId = GetCurrentUserExtension.GetCurrentUserId(this);
+
+                ViewBag.MeunCategories = _meunCategoryRepo.GetMenuCategoryDropDown(userId);
+                ViewBag.Companies = _companyRepo.GetCompanyDropDown(userId);
                 if (id.GetValueOrDefault() > 0)
                 {
                     var entity = _ItemRepo.GetById(id.GetValueOrDefault()) ?? throw new CustomException("Item Not Found.");
@@ -44,6 +52,7 @@ namespace WebApp.Areas.Menu.Controllers
                     {
                         Id = entity.Id,
                         Name = entity.Name,
+                        CompanyId = entity.CompanyId,
                        Description = entity.Description,
                        CategoryId = entity.CategoryId,
                        Price = entity.Price,

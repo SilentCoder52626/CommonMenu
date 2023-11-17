@@ -18,6 +18,8 @@
                         <th>SN</th>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>Company</th>
+                        <th>Category</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
@@ -33,6 +35,8 @@
                            
                             <td>@data.Name</td>
                             <td>@data.Price</td>
+                            <td>@data.Company</td>
+                            <td>@data.Category</td>
                             <td>
                                 @if (data.Status == Status.Active.ToString())
                                 {

@@ -1,6 +1,8 @@
-﻿@model ItemCreateDto
+﻿@using DomainModule.Dto;
+@model ItemCreateDto
 @{
     var CreateUpdateString = Model.Id > 0 ? "Update" : "Create";
+    var EmptyOptions = new List<GenericDropdownDto>();
 }
 <div class="container-fluid">
     <div class="h3 mb-2 text-gray-800">
@@ -24,7 +26,7 @@
                             @Html.ValidationMessageFor(a=>a.Name,"", new {@class = "text-danger"})
                         </div>
                     </div>
-                   <div class="col-md-6">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Price</label>
                             @Html.TextBoxFor(a=>a.Price, new { @class="form-control required"})
@@ -33,8 +35,16 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label>Company</label>
+                            @Html.DropDownListFor(a=>a.CompanyId, new SelectList(ViewBag.Companies,"Id","Name"),"--Select--", new {@class="form-control required drop-down"})
+                            @Html.ValidationMessageFor(a=>a.CompanyId,"", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label>Type</label>
-                        @Html.DropDownListFor(a=>a.CategoryId, new SelectList(ViewBag.MeunCategories,"Id","Name"),"--Select--", new {@class="form-control required drop-down"})
+                            <input type="hidden" id="SavedCategoryId" value="@Model.CategoryId" />
+                            @Html.DropDownListFor(a=>a.CategoryId, new SelectList(EmptyOptions),"--Select--", new {@class="form-control required drop-down"})
                             @Html.ValidationMessageFor(a=>a.CategoryId,"", new {@class = "text-danger"})
                         </div>
                     </div>
@@ -43,8 +53,17 @@
                             <label>Image</label>
                             <input type="file" name="file" id="image" class="form-control ">
                             <span class="text-danger field-validation-valid" data-valmsg-for="file" data-valmsg-replace="true"></span>
+
+                            @if (Model.Image != null)
+                            {
+                                <br />
+
+                                <div mt-5 mb-5">
+                                    <img src="@Model.Image.Path" alt="@Model.Image.FileName" class="center" style="height:250px; width:250px;">
+                                </div>
+                            }
                         </div>
-                    </div> 
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Description</label>
@@ -52,14 +71,7 @@
                             @Html.ValidationMessageFor(a=>a.Description,"", new {@class = "text-danger"})
                         </div>
                     </div>
-                    @if (Model.Image != null)
-                    {
-                        <div class="col-md-6">
-                            <div mt-5 mb-5">
-                                <img src="@Model.Image.Path" alt="@Model.Image.FileName" class="center" style="height:250px; width:250px;">
-                            </div>
-                        </div>
-                    }
+
                 </div>
 
                 <div class="row">
@@ -69,7 +81,7 @@
 
                     </div>
                 </div>
-                
+
             </form>
 
         </div>
@@ -83,6 +95,44 @@
 
         $(document).ready(function () {
 
+            $("#CompanyId").on('change', function (e) {
+                e.preventDefault();
+                var companyId = $(this).val();
+                if (companyId > 0) {
+                    var savedCategoryId = $("#SavedCategoryId").val();
+                    var url = '/api/menuCategory/GetCategoryOfCompany?companyId=' + companyId;
+                    $.ajax({
+                        method: 'GET',
+                        url: url,
+                        success: function (response) {
+                            if (response.StatusCode == 200) {
+                                var categories = response.Data;
+
+                                $('#CategoryId').empty();
+
+                                for (var i = 0; i < categories.length; i++) {
+                                    var category = categories[i];
+                                    $('#CategoryId').append($('<option>', {
+                                        value: category.Id,
+                                        text: category.Name
+                                    }));
+                                }
+                                if (savedCategoryId > 0) {
+                                    $('#CategoryId').val(savedCategoryId)
+                                }
+                                $('#CategoryId').select2();
+
+                            } else {
+                                ShowErrorNotification(response.Message);
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error)
+                            ShowErrorNotification(error.responseText);
+                        }
+                    });
+                }
+            })
 
             $("#save_btn").on('click', function (e) {
                 e.preventDefault();
@@ -95,10 +145,11 @@
                     formData.append('Id', $('#Id').val());
                     formData.append('Name', $('#Name').val());
                     formData.append('Price', $('#Price').val());
+                    formData.append('CompanyId', $('#CompanyId').val());
                     formData.append('Description', $('#Description').val());
                     formData.append('CategoryId', $('#CategoryId').val());
 
-                    formData.append('file', $('#image')[0].files[0]); 
+                    formData.append('file', $('#image')[0].files[0]);
 
                     $.ajax({
                         method: 'POST',
@@ -125,6 +176,9 @@
 
                 }
             })
+
+            $("#CompanyId").trigger('change');
+
         })
     </script>
 }

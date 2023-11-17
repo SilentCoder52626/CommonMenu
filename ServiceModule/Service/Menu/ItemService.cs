@@ -93,6 +93,7 @@ namespace ServiceModule.Service.Menu
             entity.Description = model.Description;
             entity.CategoryId = model.CategoryId;
             entity.Price = model.Price;
+            entity.CompanyId = model.CompanyId;
         }
 
         public void DeactivateStatus(int id)

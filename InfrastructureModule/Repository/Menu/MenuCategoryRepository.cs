@@ -18,11 +18,13 @@ namespace InfrastructureModule.Repository.Menu
         {
         }
 
-        public MenuCategoryModel GetAllMenuCategory()
+        public MenuCategoryModel GetAllMenuCategory(string userId)
         {
-            var datas = GetQueryable().Select(a => new MenuCategoryDto()
+            var datas = GetQueryable().Where(a=>a.Company.CreatedBy == userId).Select(a => new MenuCategoryDto()
             {
                 Description = a.Description,
+                CompanyId = a.CompanyId,
+                Company = a.Company.Name,
                 Id = a.Id,
                 Name = a.Name,
                 Status = a.Status,
@@ -42,9 +44,9 @@ namespace InfrastructureModule.Repository.Menu
             return model;
         }
 
-        public List<GenericDropdownDto> GetMenuCategoryDropDown()
+        public List<GenericDropdownDto> GetMenuCategoryDropDown(string userId)
         {
-            return GetQueryable().Where(a => a.Status == Status.Active.ToString()).Select(a => new GenericDropdownDto()
+            return GetQueryable().Where(a => a.Status == Status.Active.ToString() && a.Company.CreatedBy == userId).Select(a => new GenericDropdownDto()
             {
                 Id = a.Id,
                 Name = a.Name

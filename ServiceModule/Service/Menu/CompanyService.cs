@@ -86,6 +86,10 @@ namespace ServiceModule.Service.Menu
             entity.Email = model.Email;
             entity.CompanyTypeId = model.CompanyTypeId;
             entity.Website = model.Website;
+            if (!String.IsNullOrEmpty(model.CreatedBy))
+            {
+                entity.CreatedBy = model.CreatedBy;
+            }
         }
     }
 }

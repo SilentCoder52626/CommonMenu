@@ -17,12 +17,14 @@ namespace InfrastructureModule.Repository.Menu
         {
         }
 
-        public ItemModel GetAllItem()
+        public ItemModel GetAllItem(string userId)
         {
-            var Items =  GetQueryable().Select(a => new ItemDto()
+            var Items =  GetQueryable().Where(a=>a.Company.CreatedBy == userId).Select(a => new ItemDto()
             {
                 Category = a.Category.Name,
                 CategoryId = a.CategoryId,
+                CompanyId = a.CompanyId,
+                Company = a.Company.Name,
                 Description = a.Description,
                 Id = a.Id,
                 Name = a.Name,

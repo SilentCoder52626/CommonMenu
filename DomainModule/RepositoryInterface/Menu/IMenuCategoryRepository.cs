@@ -12,7 +12,7 @@ namespace DomainModule.RepositoryInterface.Menu
 {
     public interface IMenuCategoryRepository : BaseRepositoryInterface<MenuCategory>
     {
-        MenuCategoryModel GetAllMenuCategory();
-        List<GenericDropdownDto> GetMenuCategoryDropDown();
+        MenuCategoryModel GetAllMenuCategory(string userId);
+        List<GenericDropdownDto> GetMenuCategoryDropDown(string userId);
     }
 }

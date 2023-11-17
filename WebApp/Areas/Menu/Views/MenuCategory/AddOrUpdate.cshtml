@@ -26,6 +26,13 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label>Company</label>
+                            @Html.DropDownListFor(a=>a.CompanyId, new SelectList(ViewBag.Companies,"Id","Name"),"--Select--", new {@class="form-control required drop-down"})
+                            @Html.ValidationMessageFor(a=>a.CompanyId,"", new {@class = "text-danger"})
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label>Description</label>
                             @Html.TextAreaFor(a=>a.Description, new { @class="form-control", @rows=5})
                             @Html.ValidationMessageFor(a=>a.Description,"", new {@class = "text-danger"})
@@ -102,6 +109,7 @@
 
                     formData.append('Id', Id);
                     formData.append('Name', $('#Name').val());
+                    formData.append('CompanyId', $('#CompanyId').val());
                     formData.append('Description', $('#Description').val());
 
                     for (var i = 0; i < files.length; i++) {

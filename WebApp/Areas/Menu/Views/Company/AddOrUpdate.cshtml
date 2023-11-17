@@ -48,7 +48,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Email</label>
-                            @Html.TextBoxFor(a=>a.Email, new { @class="form-control"})
+                            @Html.TextBoxFor(a=>a.Email, new { @class="form-control", type="email"})
                             @Html.ValidationMessageFor(a=>a.Email,"", new {@class = "text-danger"})
                         </div>
                     </div>
@@ -79,7 +79,14 @@
                             @Html.ValidationMessageFor(a=>a.Description,"", new {@class = "text-danger"})
                         </div>
                     </div>
-
+                    @if (Model.LogoModel != null)
+                    {
+                        <div class="col-md-6">
+                            <div mt-5 mb-5">
+                                <img src="@Model.LogoModel.Path" alt="@Model.LogoModel.FileName" class="center" style="height:250px; width:250px;">
+                            </div>
+                        </div>
+                    }
                 </div>
 
                 <div class="row">

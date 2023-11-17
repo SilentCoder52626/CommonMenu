@@ -36,10 +36,14 @@ namespace WebApp.Areas.API.Controllers
         [HttpGet("")]
         public IActionResult GetMenuCategory()
         {
-            var MenuCategoryTypes = _menuCategoryRepo.GetQueryable().ToList();
+            var userId = GetCurrentUserExtension.GetCurrentUserId(this);
+
+            var MenuCategoryTypes = _menuCategoryRepo.GetQueryable().Where(a=>a.Company.CreatedBy == userId).ToList();
             var MenuCategoryDtos = MenuCategoryTypes.Select(a => new MenuCategoryDto()
             {
                 Description = a.Description,
+                CompanyId = a.CompanyId,
+                Company = a.Company.Name,
                 Images = a.Images.Select(x=> new AttachmentDto()
                 {
                     FileName = x.Image.FileName,
@@ -59,12 +63,30 @@ namespace WebApp.Areas.API.Controllers
                 Data = MenuCategoryDtos
             });
         }
+        [Authorize("MenuCategory-View")]
+        [HttpGet("GetCategoryOfCompany")]
+        public IActionResult GetCategoryOfCompany(int companyId)
+        {
+
+            var MenuCategories = _menuCategoryRepo.GetQueryable().Where(a=>a.CompanyId == companyId).Select(a=> new GenericDropdownDto()
+            {
+                Id = a.Id,
+                Name =a.Name,
+            }).ToList();
+            
+            return Ok(new ApiResponseModel()
+            {
+                StatusCode = StatusCodes.Status200OK,
+                Data = MenuCategories
+            });
+        }
         [Authorize(Policy = "MenuCategory-AddOrUpdate")]
         [HttpPost("addorupdate")]
         public IActionResult AddOrUpdate([FromForm] MenuCategoryCreateDto model)
         {
             try
-            {
+            {                
+
                 var files = Request.Form.Files;
 
                 if (files.Any())

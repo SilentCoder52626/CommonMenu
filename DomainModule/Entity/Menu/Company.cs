@@ -23,6 +23,7 @@ namespace DomainModule.Entity.Menu
         public virtual int CompanyTypeId { get; set; }
         public virtual CompanyType CompanyType { get; set; }
         public virtual string CreatedBy { get; set; }
+        public virtual List<MenuCategory> MenuCategories { get; set; } = new List<MenuCategory>();
         public virtual List<Item> Items { get; set; } = new List<Item>();
         
     }

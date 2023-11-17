@@ -17,11 +17,12 @@ namespace InfrastructureModule.Repository.Menu
         {
         }
 
-        public CompanyModel GetAllCompany()
+        public CompanyModel GetAllCompany(string userId)
         {
-            var CompanyList =  GetQueryable().Select(a => new CompanyDto()
+            var CompanyList = GetQueryable().Where(a => a.CreatedBy == userId).Select(a => new CompanyDto()
             {
                 Address = a.Address,
+                CreatedBy = a.CreatedBy,
                 CompanyType = a.CompanyType.Code,
                 CompanyTypeId = a.CompanyTypeId,
                 Description = a.Description,
@@ -45,6 +46,15 @@ namespace InfrastructureModule.Repository.Menu
                 CompanyList = CompanyList
             };
 
+        }
+
+        public List<GenericDropdownDto> GetCompanyDropDown(string userId)
+        {
+            return GetQueryable().Where(a => a.CreatedBy == userId).Select(a => new GenericDropdownDto()
+            {
+                Id = a.Id,
+                Name = a.Name
+            }).ToList();
         }
     }
 }

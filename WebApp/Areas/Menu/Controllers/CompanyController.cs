@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NToastNotify;
 using System.Runtime.CompilerServices;
+using WebApp.Extensions;
 using WebApp.Helper;
 
 namespace WebApp.Areas.Menu.Controllers
@@ -26,7 +27,8 @@ namespace WebApp.Areas.Menu.Controllers
 
         public IActionResult Index()
         {
-            var model = _companyRepo.GetAllCompany();
+            var userId = GetCurrentUserExtension.GetCurrentUserId(this);
+            var model = _companyRepo.GetAllCompany(userId);
             return View(model);
         }
 
@@ -48,7 +50,14 @@ namespace WebApp.Areas.Menu.Controllers
                         Email = entity.Email,
                         LandLineNumber = entity.LandLineNumber,
                         MobileNumber = entity.MobileNumber,
-                        Website = entity.Website
+                        Website = entity.Website,
+                        LogoModel = new DomainModule.Dto.AttachmentCreateDto()
+                        {
+                            FileName = entity.Attachment.FileName,
+                            Path = entity.Attachment.Path,
+                            UploadedBy = entity.Attachment.UploadedBy,
+                            UploadedDateTime =entity.Attachment.UploadedDateTime
+                        }
                     };
                     return View(model);
                 }

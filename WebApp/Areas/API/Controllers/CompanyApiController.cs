@@ -32,7 +32,8 @@ namespace WebApp.Areas.API.Controllers
         [HttpGet("")]
         public IActionResult GetCompany()
         {
-            var companyTypes = _companyRepo.GetQueryable().ToList();
+            var userId = GetCurrentUserExtension.GetCurrentUserId(this);
+            var companyTypes = _companyRepo.GetQueryable().Where(a=>a.CreatedBy == userId).ToList();
             var CompanyDtos = companyTypes.Select(a => new CompanyDto()
             {
                 Address = a.Address,
@@ -67,6 +68,8 @@ namespace WebApp.Areas.API.Controllers
             {
                 var action = "New";
                 var currentFilePath = "";
+                var CurrentUserId = GetCurrentUserExtension.GetCurrentUserId(this);
+                model.CreatedBy = CurrentUserId;
                 if (model.Id > 0)
                 {
                     action = "Update";

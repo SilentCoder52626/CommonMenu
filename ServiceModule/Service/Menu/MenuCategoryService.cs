@@ -62,12 +62,14 @@ namespace ServiceModule.Service.Menu
                     {
                         entity = _menuCategoryRepo.GetById(model.Id) ?? throw new CustomException("Menu category not found.");
                         entity.Name = model.Name;
+                        entity.CompanyId = model.CompanyId;
                         entity.Description = model.Description;
                         _menuCategoryRepo.Update(entity);
                     }
                     else
                     {
                         entity.Name = model.Name;
+                        entity.CompanyId = model.CompanyId;
                         entity.Description = model.Description;
                         entity.Status = Status.InActive.ToString();
                         _menuCategoryRepo.Insert(entity);
