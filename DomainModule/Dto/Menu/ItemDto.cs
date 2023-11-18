@@ -8,9 +8,14 @@ using System.Threading.Tasks;
 
 namespace DomainModule.Dto.Menu
 {
+    public class ItemFilterModel
+    {
+        public int? CompanyId { get; set; }
+    }
     public class ItemModel
     {
         public List<ItemDto> Items { get; set; } = new List<ItemDto>();
+        public ItemFilterModel Filter { get; set; }
     }
     public class ItemDto : ItemCreateDto
     {

@@ -26,11 +26,14 @@ namespace WebApp.Areas.Menu.Controllers
             _companyRepo = companyRepo;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(MenuCategoryFilterModel filter)
         {
             var userId = GetCurrentUserExtension.GetCurrentUserId(this);
+            ViewBag.Companies = _companyRepo.GetCompanyDropDown(userId);
 
-            var model = _menuCategoryRepo.GetAllMenuCategory(userId);
+
+            var model = _menuCategoryRepo.GetAllFilteredMenuCategory(filter,userId);
+            model.Filter = filter;
             return View(model);
         }
 

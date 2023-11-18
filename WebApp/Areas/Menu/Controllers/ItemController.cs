@@ -30,10 +30,12 @@ namespace WebApp.Areas.Menu.Controllers
             _companyRepo = companyRepo;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(ItemFilterModel filter)
         {
             var userId = GetCurrentUserExtension.GetCurrentUserId(this);
-            var model = _ItemRepo.GetAllItem(userId);
+            ViewBag.Companies = _companyRepo.GetCompanyDropDown(userId);
+            var model = _ItemRepo.GetAllFilteredItem(filter,userId);
+            model.Filter = filter;
             return View(model);
         }
 

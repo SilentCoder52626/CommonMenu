@@ -43,6 +43,36 @@ namespace InfrastructureModule.Repository.Menu
             };
             return model;
         }
+         public MenuCategoryModel GetAllFilteredMenuCategory(MenuCategoryFilterModel filter, string userId)
+        {
+            var Queryable = GetQueryable().Where(a => a.Company.CreatedBy == userId);
+            if(filter.CompanyId.GetValueOrDefault() > 0)
+            {
+                Queryable = Queryable.Where(a=>a.CompanyId == filter.CompanyId.GetValueOrDefault());
+            }
+            var datas = Queryable.Select(a => new MenuCategoryDto()
+            {
+                Description = a.Description,
+                CompanyId = a.CompanyId,
+                Company = a.Company.Name,
+                Id = a.Id,
+                Name = a.Name,
+                Status = a.Status,
+                Images = a.Images.Select(x => new AttachmentDto()
+                {
+                    FileName = x.Image.FileName,
+                    Path = x.Image.Path,
+                    UploadedBy = x.Image.UploadedBy,
+                    UploadedDateTime = x.Image.UploadedDateTime,
+                    Id = x.AttachmentId,
+                }).ToList()
+            }).ToList();
+            var model = new MenuCategoryModel()
+            {
+                MenuCategories = datas
+            };
+            return model;
+        }
 
         public List<GenericDropdownDto> GetMenuCategoryDropDown(string userId)
         {

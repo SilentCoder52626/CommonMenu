@@ -6,9 +6,14 @@ using System.Threading.Tasks;
 
 namespace DomainModule.Dto.Menu
 {
+    public class MenuCategoryFilterModel
+    {
+        public int? CompanyId { get; set; }
+    }
     public class MenuCategoryModel
     {
         public List<MenuCategoryDto> MenuCategories { get; set; } = new List<MenuCategoryDto>();
+        public MenuCategoryFilterModel? Filter {get; set;}
     }
     public class MenuCategoryDto : MenuCategoryCreateDto
     {

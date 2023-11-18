@@ -2,15 +2,36 @@
 @model ItemModel
 
 <div class="container-fluid">
-    <div class="h3 mb-2 text-gray-800">
-        Item
 
-        <a class="btn btn-success" asp-area="Menu" asp-controller="Item" asp-action="AddOrUpdate">
-            <i class="fa fa-plus"></i>
-        </a>
-    </div>
 
     <div class="card">
+        <div class="card-header">
+            <form asp-action="Index" asp-controller="Item" asp-area="Menu" method="get">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="h3 text-gray-800">
+                            Menu Item
+
+                            <a class="btn btn-success" asp-area="Menu" asp-controller="Item" asp-action="AddOrUpdate">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-3">
+                        <label>Company</label>
+                        @Html.DropDownList("CompanyId", new SelectList(ViewBag.Companies,"Id","Name"),"--All--", new {@class = "form-control drop-down"})
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success mt-4">
+                            <i class="fa fa-filter"></i> Filter
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
         <div class="card-body">
             <table class="table table-bordered " id="ViewTable">
                 <thead>
@@ -32,7 +53,7 @@
                     {
                         <tr>
                             <td>@i</td>
-                           
+
                             <td>@data.Name</td>
                             <td>@data.Price</td>
                             <td>@data.Company</td>

@@ -17,6 +17,39 @@ namespace InfrastructureModule.Repository.Menu
         {
         }
 
+        public ItemModel GetAllFilteredItem(ItemFilterModel filter, string userId)
+        {
+            var Queryable = GetQueryable().Where(a => a.Company.CreatedBy == userId);
+            if(filter.CompanyId.GetValueOrDefault() > 0)
+            {
+                Queryable = Queryable.Where(a=>a.CompanyId == filter.CompanyId.GetValueOrDefault());
+            }
+            var Items = Queryable.Select(a => new ItemDto()
+            {
+                Category = a.Category.Name,
+                CategoryId = a.CategoryId,
+                CompanyId = a.CompanyId,
+                Company = a.Company.Name,
+                Description = a.Description,
+                Id = a.Id,
+                Name = a.Name,
+                Image = a.ImageId > 0 ? new AttachmentCreateDto()
+                {
+                    FileName = a.Image.FileName,
+                    Path = a.Image.Path,
+                    UploadedBy = a.Image.UploadedBy,
+                    UploadedDateTime = a.Image.UploadedDateTime,
+                } : null,
+                Price = a.Price,
+                Status = a.Status
+            }).ToList();
+            var model = new ItemModel()
+            {
+                Items = Items
+            };
+            return model;
+        }
+
         public ItemModel GetAllItem(string userId)
         {
             var Items =  GetQueryable().Where(a=>a.Company.CreatedBy == userId).Select(a => new ItemDto()

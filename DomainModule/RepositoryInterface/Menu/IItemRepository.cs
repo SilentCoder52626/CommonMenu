@@ -12,5 +12,6 @@ namespace DomainModule.RepositoryInterface.Menu
     public interface IItemRepository : BaseRepositoryInterface<Item>
     {
         ItemModel GetAllItem(string userId);
+        ItemModel GetAllFilteredItem(ItemFilterModel filter,string userId);
     }
 }
