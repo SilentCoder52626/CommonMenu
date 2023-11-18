@@ -11,6 +11,7 @@ namespace DomainModule.Dto.Menu
     public class ItemFilterModel
     {
         public int? CompanyId { get; set; }
+        public int? CategoryId { get; set; }
     }
     public class ItemModel
     {

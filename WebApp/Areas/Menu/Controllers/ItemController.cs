@@ -34,6 +34,8 @@ namespace WebApp.Areas.Menu.Controllers
         {
             var userId = GetCurrentUserExtension.GetCurrentUserId(this);
             ViewBag.Companies = _companyRepo.GetCompanyDropDown(userId);
+            ViewBag.MeunCategories = _meunCategoryRepo.GetMenuCategoryDropDown(userId);
+
             var model = _ItemRepo.GetAllFilteredItem(filter,userId);
             model.Filter = filter;
             return View(model);

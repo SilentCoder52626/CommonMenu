@@ -24,6 +24,10 @@ namespace InfrastructureModule.Repository.Menu
             {
                 Queryable = Queryable.Where(a=>a.CompanyId == filter.CompanyId.GetValueOrDefault());
             }
+            if(filter.CategoryId.GetValueOrDefault() > 0)
+            {
+                Queryable = Queryable.Where(a=>a.CategoryId == filter.CategoryId.GetValueOrDefault());
+            }
             var Items = Queryable.Select(a => new ItemDto()
             {
                 Category = a.Category.Name,

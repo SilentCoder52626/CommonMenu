@@ -18,7 +18,10 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-3"></div>
+                    <div class="col-md-3">
+                        <label>Category</label>
+                        @Html.DropDownList("CategoryId", new SelectList(ViewBag.MeunCategories,"Id","Name"),"--All--", new {@class = "form-control drop-down"})
+                    </div>
                     <div class="col-md-3">
                         <label>Company</label>
                         @Html.DropDownList("CompanyId", new SelectList(ViewBag.Companies,"Id","Name"),"--All--", new {@class = "form-control drop-down"})
