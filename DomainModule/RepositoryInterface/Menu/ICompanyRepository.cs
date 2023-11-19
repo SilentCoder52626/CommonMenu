@@ -13,6 +13,7 @@ namespace DomainModule.RepositoryInterface.Menu
     public interface ICompanyRepository : BaseRepositoryInterface<Company>
     {
         CompanyModel GetAllCompany(string userId);
+        CompanyModel GetAllCompany();
         List<GenericDropdownDto> GetCompanyDropDown(string userId);
 
     }

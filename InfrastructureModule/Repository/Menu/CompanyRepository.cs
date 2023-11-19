@@ -1,6 +1,8 @@
 ﻿using DomainModule.Dto;
 using DomainModule.Dto.Menu;
+using DomainModule.Entity;
 using DomainModule.Entity.Menu;
+using DomainModule.RepositoryInterface;
 using DomainModule.RepositoryInterface.Menu;
 using InfrastructureModule.Context;
 using System;
@@ -13,8 +15,10 @@ namespace InfrastructureModule.Repository.Menu
 {
     public class CompanyRepository : BaseRepository<Company>, ICompanyRepository
     {
-        public CompanyRepository(AppDbContext context) : base(context)
+        private readonly UserRepositoryInterface _userRepo;
+        public CompanyRepository(AppDbContext context, UserRepositoryInterface userRepo) : base(context)
         {
+            _userRepo = userRepo;
         }
 
         public CompanyModel GetAllCompany(string userId)
@@ -46,6 +50,32 @@ namespace InfrastructureModule.Repository.Menu
                 CompanyList = CompanyList
             };
 
+        }
+
+        public CompanyModel GetAllCompany()
+        {
+            var CompanyList = GetQueryable().ToList();
+            var returnModel = CompanyList.Select(a => new CompanyDto()
+            {
+                Address = a.Address,
+                CreatedBy = a.CreatedBy,
+                CompanyType = a.CompanyType.Code,
+                CompanyTypeId = a.CompanyTypeId,
+                Description = a.Description,
+                Email = a.Email,
+                Id = a.Id,
+                LandLineNumber = a.LandLineNumber,
+                MobileNumber = a.MobileNumber,
+                Name = a.Name,
+                Website = a.Website,
+                UserName = _userRepo.GetByIdString(a.CreatedBy).Name,
+
+            }).ToList();
+
+            return new CompanyModel()
+            {
+                CompanyList = returnModel
+            };
         }
 
         public List<GenericDropdownDto> GetCompanyDropDown(string userId)

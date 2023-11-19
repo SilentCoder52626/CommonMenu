@@ -1,0 +1,76 @@
+﻿@model CompanyModel
+
+<div class="container-fluid">
+
+    <div class="card">
+        <div class="card-header">
+            <div class="h3 text-gray-800">
+                Company
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered " id="ViewTable">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Created By</th>
+                        <th>Address</th>
+                        <th>Mobile Number</th>
+                        <th>Land-Line Number</th>
+                        <th>Email</th>
+                        <th>Website</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var i = 1;
+                    }
+                    @foreach (var data in Model.CompanyList)
+                    {
+                        <tr>
+                            <td>@i</td>
+                            <td>@data.Name</td>
+                            <td>@data.CompanyType</td>
+                            <td>@data.UserName</td>
+                            <td>@data.Address</td>
+                            <td>@data.MobileNumber</td>
+                            <td>@data.LandLineNumber</td>
+                            <td>@data.Email</td>
+                            <td>@data.Website</td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        var printCounter = 0;
+
+        $("#ViewTable").DataTable({
+            responsive: true,
+            autoWidth: false,
+            dom: 'Bfrtip',
+            buttons: [
+                'csv',
+                'excel',
+                {
+                    title: 'Common Menu - Company',
+                    extend: 'pdfHtml5',
+                    orientation: 'potrait',
+                    pageSize: 'LEGAL'
+                },
+
+                {
+                    extend: 'print',
+                    title: 'Common Menu - Company',
+                },
+            ]
+        });
+    </script>
+}

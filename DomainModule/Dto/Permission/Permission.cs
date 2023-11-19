@@ -82,6 +82,12 @@ namespace DomainModule.Dto
                     "AddOrUpdate",
                     "Status"
                 }
+            },
+            {
+                "Report", new List<string>
+                {
+                    "Company",
+                }
             }
         };
 
