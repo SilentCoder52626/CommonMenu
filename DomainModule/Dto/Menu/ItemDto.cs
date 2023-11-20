@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace DomainModule.Dto.Menu
 {
+    public class BulkItemModel
+    {
+        public List<ItemCreateDto> ItemCreateDtos { get;set;} = new List<ItemCreateDto>();
+        public int CategoryId { get;set;}
+        public int CompanyId { get;set;}
+    }
     public class ItemFilterModel
     {
         public int? CompanyId { get; set; }

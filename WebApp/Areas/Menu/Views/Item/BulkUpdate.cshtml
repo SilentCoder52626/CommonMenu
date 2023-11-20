@@ -1,0 +1,198 @@
+﻿@model BulkItemModel
+
+@using DomainModule.Dto;
+@{
+    var EmptyOptions = new List<GenericDropdownDto>();
+}
+<div class="container-fluid">
+
+
+    <div class="card">
+        <div class="card-header">
+            <form asp-action="BulkUpdate" asp-controller="Item" asp-area="Menu" method="get">
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="h3 text-gray-800">
+                            Bulk Update Item
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Company</label>
+                        @Html.DropDownList("companyId", new SelectList(ViewBag.Companies,"Id","Name"),"--Select--", new {@class="form-control required drop-down"})
+                    </div>
+                    <div class="col-md-3">
+                        <label>Category</label>
+                        <input type="hidden" id="SavedCategoryId" value="@Model.CategoryId" />
+                        @Html.DropDownList("categoryId", new SelectList(EmptyOptions),"--Select--", new {@class="form-control required drop-down"})
+                    </div>
+
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success mt-4">
+                            <i class="fa fa-magnifying-glass"></i> Search
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="card-body">
+            <form method="post" class="MenuForm" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-primary" id="add-item"><i class="fa fa-plus"></i> Add</button>
+                        <br />
+                        <table class="table table-bordered" border="1">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="item-body">
+                                @foreach (var data in Model.ItemCreateDtos)
+                                {
+                                    @Html.RenderPartialAsync("Partial/ItemRow", data)
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <input type="button" class="btn btn-success" id="save_btn" value="Save" />
+                        <a asp-action="Index" class="btn btn-primary">Back</a>
+
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+    {
+    <script>
+
+        $(document).ready(function () {
+
+            $("#item-body").on("click", ".remove-row", function () {
+                event.preventDefault();
+
+                $(this).closest("tr").remove();
+            });
+
+            $("#add-item").click(function () {
+                event.preventDefault();
+                var categoryId = $("#categoryId").val();
+                var companyId = $("#compayId").val();
+                if (categoryId == 0 || companyId == 0) {
+                    ShowErrorNotification("Select Category and Company.");
+                    return;
+                }
+                $.ajax({
+                    url: '/Menu/Item/ItemRow', 
+                    type: 'GET',
+                    data: { companyId: companyId, categoryId: categoryId },
+                    success: function (html) {
+                        $("#item-body").append(html);
+                    },
+                    error: function (error) {
+                        console.log(error)
+                        ShowErrorNotification(error.responseText);
+                    }
+                });
+            });
+            $("#companyId").on('change', function (e) {
+                e.preventDefault();
+                var companyId = $(this).val();
+                if (companyId > 0) {
+                    var savedCategoryId = $("#SavedCategoryId").val();
+                    var url = '/api/menuCategory/GetCategoryOfCompany?companyId=' + companyId;
+                    $.ajax({
+                        method: 'GET',
+                        url: url,
+                        success: function (response) {
+                            if (response.StatusCode == 200) {
+                                var categories = response.Data;
+
+                                $('#categoryId').empty();
+
+                                for (var i = 0; i < categories.length; i++) {
+                                    var category = categories[i];
+                                    $('#categoryId').append($('<option>', {
+                                        value: category.Id,
+                                        text: category.Name
+                                    }));
+                                }
+                                if (savedCategoryId > 0) {
+                                    $('#categoryId').val(savedCategoryId)
+                                }
+                                $('#categoryId').select2();
+
+                            } else {
+                                ShowErrorNotification(response.Message);
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error)
+                            ShowErrorNotification(error.responseText);
+                        }
+                    });
+                }
+            })
+
+            $("#save_btn").on('click', function (e) {
+                e.preventDefault();
+                let form = $(".MenuForm");
+                form.validate();
+
+                if (form.valid()) {
+
+                    var formData = new FormData();
+                    formData.append('Id', $('#Id').val());
+                    formData.append('Name', $('#Name').val());
+                    formData.append('Price', $('#Price').val());
+                    formData.append('CompanyId', $('#CompanyId').val());
+                    formData.append('Description', $('#Description').val());
+                    formData.append('CategoryId', $('#CategoryId').val());
+
+                    formData.append('file', $('#image')[0].files[0]);
+
+                    $.ajax({
+                        method: 'POST',
+                        url: '/api/Item/AddOrUpdate',
+                        contentType: false,  // Set contentType to false when using FormData
+                        processData: false,  // Set processData to false to prevent jQuery from transforming the data
+                        data: formData,
+                        success: function (response) {
+                            console.log(response);
+                            if (response.StatusCode == 200) {
+                                ShowSuccessNotification(response.Message);
+                                setTimeout(function () {
+                                    window.location = '/Menu/Item/AddOrUpdate?id=' + response.Data.Id;
+                                }, 2000);
+                            } else {
+                                ShowErrorNotification(response.Message);
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error)
+                            ShowErrorNotification(error.responseText);
+                        }
+                    });
+
+                }
+            })
+
+            $("#companyId").trigger('change');
+
+        })
+    </script>
+}
