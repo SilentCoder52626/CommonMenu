@@ -73,13 +73,13 @@
                                 </a>
                                 @if (data.Status == Status.Active.ToString())
                                 {
-                                    <span class="btn btn-danger" id="deactivate_category" data-id="@data.Id">
+                                    <span class="btn btn-danger deactivate_category" data-id="@data.Id">
                                         <i class="fa fa-thumbs-down"></i>
                                     </span>
                                 }
                                 else
                                 {
-                                    <span class="btn btn-success" id="activate_category" data-id="@data.Id">
+                                    <span class="btn btn-success activate_category" data-id="@data.Id">
                                         <i class="fa fa-thumbs-up"></i>
                                     </span>
                                 }
@@ -97,7 +97,7 @@
     <script>
         $("#ViewTable").DataTable();
 
-        $("#activate_category").on("click", function (e) {
+        $(".activate_category").on("click", function (e) {
             e.preventDefault();
 
             var CategoryId = $(this).data("id");
@@ -123,7 +123,7 @@
                 }
             });
         })
-        $("#deactivate_category").on("click", function (e) {
+        $(".deactivate_category").on("click", function (e) {
             e.preventDefault();
 
             var CategoryId = $(this).data("id");

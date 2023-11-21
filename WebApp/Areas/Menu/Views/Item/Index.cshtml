@@ -83,13 +83,13 @@
                                 </a>
                                 @if (data.Status == Status.Active.ToString())
                                 {
-                                    <span class="btn btn-danger" id="deactivate_item" data-id="@data.Id">
+                                    <span class="btn btn-danger deactivate_item" data-id="@data.Id">
                                         <i class="fa fa-thumbs-down"></i>
                                     </span>
                                 }
                                 else
                                 {
-                                    <span class="btn btn-success" id="activate_item" data-id="@data.Id">
+                                    <span class="btn btn-success activate_item" data-id="@data.Id">
                                         <i class="fa fa-thumbs-up"></i>
                                     </span>
                                 }
@@ -147,7 +147,7 @@
             }
         })
 
-        $("#activate_item").on("click", function (e) {
+        $(".activate_item").on("click", function (e) {
             e.preventDefault();
 
             var ItemId = $(this).data("id");
@@ -173,12 +173,12 @@
                 }
             });
         })
-        $("#deactivate_item").on("click", function (e) {
+        $(".deactivate_item").on("click", function (e) {
             e.preventDefault();
 
             var ItemId = $(this).data("id");
             var data = { ItemId: ItemId };
-
+            console.log("Hello")
             $.ajax({
                 method: 'POST',
                 url: '/api/Item/DeActivate',

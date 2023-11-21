@@ -1,6 +1,7 @@
 ﻿using Castle.Components.DictionaryAdapter.Xml;
 using DomainModule.Dto;
 using DomainModule.Dto.Menu;
+using DomainModule.Enums;
 using DomainModule.Exceptions;
 using DomainModule.RepositoryInterface.Menu;
 using DomainModule.ServiceInterface.Menu;
@@ -107,7 +108,7 @@ namespace WebApp.Areas.Menu.Controllers
                 } : null;
 
             }
-            return PartialView("Item/Partial/ItemRow.cshtml", model);
+            return PartialView("Partial/ItemRow", model);
         }
         public IActionResult BulkUpdate(int? companyId, int? categoryId)
         {
@@ -120,7 +121,7 @@ namespace WebApp.Areas.Menu.Controllers
 
                 if (companyId.GetValueOrDefault() > 0 && categoryId.GetValueOrDefault() > 0)
                 {
-                    var Datas = _ItemRepo.GetQueryable().Where(a => a.CompanyId == companyId && a.CategoryId == categoryId).Select(a => new ItemCreateDto()
+                    var Datas = _ItemRepo.GetQueryable().Where(a => a.CompanyId == companyId && a.CategoryId == categoryId && a.Status == Status.Active.ToString()).Select(a => new ItemCreateDto()
                     {
                         Id = a.Id,
                         Name = a.Name,

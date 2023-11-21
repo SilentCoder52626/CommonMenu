@@ -29,7 +29,7 @@
 
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-success mt-4">
-                            <i class="fa fa-magnifying-glass"></i> Search
+                            <i class="fa fa-search"></i> Search
                         </button>
                     </div>
                 </div>
@@ -38,37 +38,49 @@
         </div>
         <div class="card-body">
             <form method="post" class="MenuForm" enctype="multipart/form-data">
-                <div class="row">
-                    <div class="col-md-12">
-                        <button class="btn btn-primary" id="add-item"><i class="fa fa-plus"></i> Add</button>
-                        <br />
-                        <table class="table table-bordered" border="1">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Price</th>
-                                    <th>Description</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="item-body">
-                                @foreach (var data in Model.ItemCreateDtos)
-                                {
-                                    @Html.RenderPartialAsync("Partial/ItemRow", data)
-                                }
-                            </tbody>
+                @if (Model.CategoryId > 0)
+                {
 
-                        </table>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-primary" id="add-item"><i class="fa fa-plus"></i> Add</button>
+                            <br />
+                            <br />
+                            <table class="table table-bordered" border="1">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Price</th>
+                                        <th>Description</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="item-body">
+                                    @foreach (var data in Model.ItemCreateDtos)
+                                    {
+                                        @Html.Partial("Partial/ItemRow", data)
+                                    }
+                                </tbody>
+
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-10">
-                        <input type="button" class="btn btn-success" id="save_btn" value="Save" />
-                        <a asp-action="Index" class="btn btn-primary">Back</a>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <input type="button" class="btn btn-success" id="save_btn" value="Save" />
+                            <a asp-action="Index" class="btn btn-primary">Back</a>
 
+                        </div>
                     </div>
-                </div>
-
+                }
+                else
+                {
+                    <table class="table table-bordered">
+                        <tr>
+                            <td class="text-center">No Records Found</td>
+                        </tr>
+                    </table>
+                }
             </form>
 
         </div>
@@ -91,13 +103,13 @@
             $("#add-item").click(function () {
                 event.preventDefault();
                 var categoryId = $("#categoryId").val();
-                var companyId = $("#compayId").val();
+                var companyId = $("#companyId").val();
                 if (categoryId == 0 || companyId == 0) {
                     ShowErrorNotification("Select Category and Company.");
                     return;
                 }
                 $.ajax({
-                    url: '/Menu/Item/ItemRow', 
+                    url: '/Menu/Item/ItemRow',
                     type: 'GET',
                     data: { companyId: companyId, categoryId: categoryId },
                     success: function (html) {
@@ -155,29 +167,35 @@
 
                 if (form.valid()) {
 
-                    var formData = new FormData();
-                    formData.append('Id', $('#Id').val());
-                    formData.append('Name', $('#Name').val());
-                    formData.append('Price', $('#Price').val());
-                    formData.append('CompanyId', $('#CompanyId').val());
-                    formData.append('Description', $('#Description').val());
-                    formData.append('CategoryId', $('#CategoryId').val());
+                    var dataArray = [];
 
-                    formData.append('file', $('#image')[0].files[0]);
+                    $("#item-body tr").each(function () {
+                        var item = {
+                            Id: $(this).find('.Id').val(),
+                            Name: $(this).find('.Name').val(),
+                            Price: $(this).find('.Price').val(),
+                            CompanyId: $(this).find('.CompanyId').val(),
+                            Description: $(this).find('.Description').val(),
+                            CategoryId: $(this).find('.CategoryId').val()
+                        };
+
+                        dataArray.push(item);
+                    });
+
 
                     $.ajax({
                         method: 'POST',
-                        url: '/api/Item/AddOrUpdate',
-                        contentType: false,  // Set contentType to false when using FormData
-                        processData: false,  // Set processData to false to prevent jQuery from transforming the data
-                        data: formData,
+                        url: '/api/Item/BulkUpdate',
+                        contentType: 'application/json',
+                        data: JSON.stringify(dataArray),
                         success: function (response) {
-                            console.log(response);
                             if (response.StatusCode == 200) {
                                 ShowSuccessNotification(response.Message);
+
                                 setTimeout(function () {
-                                    window.location = '/Menu/Item/AddOrUpdate?id=' + response.Data.Id;
+                                    location.reload()
                                 }, 2000);
+
                             } else {
                                 ShowErrorNotification(response.Message);
                             }

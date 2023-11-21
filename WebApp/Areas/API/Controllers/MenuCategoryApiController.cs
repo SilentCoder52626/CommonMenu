@@ -1,6 +1,7 @@
 ﻿using DomainModule.Dto;
 using DomainModule.Dto.Menu;
 using DomainModule.Entity;
+using DomainModule.Enums;
 using DomainModule.Exceptions;
 using DomainModule.RepositoryInterface;
 using DomainModule.RepositoryInterface.Menu;
@@ -68,7 +69,7 @@ namespace WebApp.Areas.API.Controllers
         public IActionResult GetCategoryOfCompany(int companyId)
         {
 
-            var MenuCategories = _menuCategoryRepo.GetQueryable().Where(a=>a.CompanyId == companyId).Select(a=> new GenericDropdownDto()
+            var MenuCategories = _menuCategoryRepo.GetQueryable().Where(a=>a.CompanyId == companyId && a.Status == Status.Active.ToString()).Select(a=> new GenericDropdownDto()
             {
                 Id = a.Id,
                 Name =a.Name,
