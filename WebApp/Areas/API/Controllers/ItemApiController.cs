@@ -73,7 +73,7 @@ namespace WebApp.Areas.API.Controllers
                     action = "Update";
                     currentFilePath = _itemRepo.GetQueryable().Where(a => a.Id == model.Id).Select(a => a.Image.Path).FirstOrDefault();
                 }
-                
+
                 if (model.file != null)
                 {
                     model.Image = ConfigureAttachmentCreateModel(model.file);
@@ -94,8 +94,30 @@ namespace WebApp.Areas.API.Controllers
                     Message = "Item Created Successfully",
                     Data = new
                     {
-                        Id  = ItemId
+                        Id = ItemId
                     }
+                });
+            }
+            catch (Exception ex)
+            {
+                CommonLogger.LogError(ex.Message, ex);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Policy = "Item-AddOrUpdate")]
+        [HttpPost("BulkUpdate")]
+        public IActionResult BulkUpdate([FromBody] List<ItemCreateDto> model)
+        {
+            try
+            {
+
+                _itemService.BulkUpdateItem(model);
+
+                return Ok(new ApiResponseModel()
+                {
+                    StatusCode = StatusCodes.Status200OK,
+                    Message = "Items Updated Successfully",
                 });
             }
             catch (Exception ex)

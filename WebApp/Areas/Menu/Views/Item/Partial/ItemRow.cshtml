@@ -1,0 +1,22 @@
+﻿@model ItemCreateDto
+
+<tr>
+    @Html.HiddenFor(a=>a.CategoryId, new {@class="CategoryId"})
+    @Html.HiddenFor(a=>a.CompanyId, new {@class="CompanyId"})
+    @Html.HiddenFor(a=>a.Id, new {@class="Id"})
+    <td>
+        @Html.TextBoxFor(a=>a.Name, new { @class="form-control required Name"})
+        @Html.ValidationMessageFor(a=>a.Name,"", new {@class = "text-danger"})
+    </td>
+    <td>
+        @Html.TextBoxFor(a=>a.Price, new { @class="form-control required Price"})
+        @Html.ValidationMessageFor(a=>a.Price,"", new {@class = "text-danger"})
+    </td>
+    <td>
+        @Html.TextAreaFor(a=>a.Description, new { @class="form-control Description", @rows=2})
+        @Html.ValidationMessageFor(a=>a.Description,"", new {@class = "text-danger"})
+    </td>
+    <td>
+        <button class="btn btn-danger remove-row"><i class="fa fa-times"></i></button>
+    </td>
+</tr>

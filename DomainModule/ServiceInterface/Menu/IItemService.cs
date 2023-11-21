@@ -10,6 +10,7 @@ namespace DomainModule.ServiceInterface.Menu
     public interface IItemService
     {
         int AddOrUpdateItem(ItemCreateDto model);
+        void BulkUpdateItem(List<ItemCreateDto> model);
         void ActivateStatus(int id);
         void DeactivateStatus(int id);
     }

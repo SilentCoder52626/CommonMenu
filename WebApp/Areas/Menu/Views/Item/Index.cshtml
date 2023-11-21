@@ -1,5 +1,9 @@
-﻿@using DomainModule.Enums;
+﻿@using DomainModule.Dto;
+@using DomainModule.Enums;
 @model ItemModel
+@{
+    var EmptyOptions = new List<GenericDropdownDto>();
+}
 
 <div class="container-fluid">
 
@@ -19,12 +23,13 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <label>Category</label>
-                        @Html.DropDownList("CategoryId", new SelectList(ViewBag.MeunCategories,"Id","Name"),"--All--", new {@class = "form-control drop-down"})
+                        <label>Company</label>
+                        @Html.DropDownList("CompanyId", new SelectList(ViewBag.Companies,"Id","Name"),"--Select--", new {@class="form-control required drop-down"})
                     </div>
                     <div class="col-md-3">
-                        <label>Company</label>
-                        @Html.DropDownList("CompanyId", new SelectList(ViewBag.Companies,"Id","Name"),"--All--", new {@class = "form-control drop-down"})
+                        <label>Category</label>
+                        <input type="hidden" id="SavedCategoryId" value="@Model.Filter.CategoryId" />
+                        @Html.DropDownList("CategoryId",new SelectList(EmptyOptions),"--Select--", new {@class="form-control required drop-down"})
                     </div>
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-success mt-4">
@@ -78,13 +83,13 @@
                                 </a>
                                 @if (data.Status == Status.Active.ToString())
                                 {
-                                    <span class="btn btn-danger" id="deactivate_item" data-id="@data.Id">
+                                    <span class="btn btn-danger deactivate_item" data-id="@data.Id">
                                         <i class="fa fa-thumbs-down"></i>
                                     </span>
                                 }
                                 else
                                 {
-                                    <span class="btn btn-success" id="activate_item" data-id="@data.Id">
+                                    <span class="btn btn-success activate_item" data-id="@data.Id">
                                         <i class="fa fa-thumbs-up"></i>
                                     </span>
                                 }
@@ -102,7 +107,47 @@
     <script>
         $("#ViewTable").DataTable();
 
-        $("#activate_item").on("click", function (e) {
+
+        $("#CompanyId").on('change', function (e) {
+            e.preventDefault();
+            var companyId = $(this).val();
+            if (companyId > 0) {
+                var savedCategoryId = $("#SavedCategoryId").val();
+                var url = '/api/menuCategory/GetCategoryOfCompany?companyId=' + companyId;
+                $.ajax({
+                    method: 'GET',
+                    url: url,
+                    success: function (response) {
+                        if (response.StatusCode == 200) {
+                            var categories = response.Data;
+
+                            $('#CategoryId').empty();
+
+                            for (var i = 0; i < categories.length; i++) {
+                                var category = categories[i];
+                                $('#CategoryId').append($('<option>', {
+                                    value: category.Id,
+                                    text: category.Name
+                                }));
+                            }
+                            if (savedCategoryId > 0) {
+                                $('#CategoryId').val(savedCategoryId)
+                            }
+                            $('#CategoryId').select2();
+
+                        } else {
+                            ShowErrorNotification(response.Message);
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error)
+                        ShowErrorNotification(error.responseText);
+                    }
+                });
+            }
+        })
+
+        $(".activate_item").on("click", function (e) {
             e.preventDefault();
 
             var ItemId = $(this).data("id");
@@ -128,12 +173,12 @@
                 }
             });
         })
-        $("#deactivate_item").on("click", function (e) {
+        $(".deactivate_item").on("click", function (e) {
             e.preventDefault();
 
             var ItemId = $(this).data("id");
             var data = { ItemId: ItemId };
-
+            console.log("Hello")
             $.ajax({
                 method: 'POST',
                 url: '/api/Item/DeActivate',

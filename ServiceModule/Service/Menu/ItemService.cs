@@ -69,7 +69,7 @@ namespace ServiceModule.Service.Menu
                         _itemRepo.Insert(entity);
                     }
                     _unitOfWork.Complete();
-                    if(model.Image != null && !String.IsNullOrEmpty(model.Image.FileName))
+                    if (model.Image != null && !String.IsNullOrEmpty(model.Image.FileName))
                     {
                         var currentAttachmentId = entity.ImageId.GetValueOrDefault();
                         entity.ImageId = _attachmentService.CreateWihoutTransaction(model.Image);
@@ -108,6 +108,55 @@ namespace ServiceModule.Service.Menu
 
                     _unitOfWork.Complete();
                     tx.Commit();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void BulkUpdateItem(List<ItemCreateDto> model)
+        {
+            try
+            {
+                if (model.Any())
+                {
+                    using (var tx = _unitOfWork.BeginTransaction())
+                    {
+
+                        var CategoryId = model.First().CategoryId;
+                        var AllItemOfCategory = _itemRepo.GetQueryable().Where(a => a.CategoryId == CategoryId).ToList();
+                        foreach (var item in AllItemOfCategory)
+                        {
+                            item.Status = Status.InActive.ToString();
+                        }
+                        _unitOfWork.Complete();
+                        foreach (var data in model)
+                        {
+                            var entity = new Item();
+                            if (data.Id > 0)
+                            {
+                                entity = _itemRepo.GetById(data.Id) ?? throw new CustomException("Item not found.");
+                                ConfigureItemEntity(data, entity);
+                                entity.Status = Status.Active.ToString();
+                                _itemRepo.Update(entity);
+                            }
+                            else
+                            {
+                                ConfigureItemEntity(data, entity);
+                                entity.Status = Status.Active.ToString();
+                                _itemRepo.Insert(entity);
+                            }
+
+                        }
+                        _unitOfWork.Complete();
+                        tx.Commit();
+                    }
+                }
+                else
+                {
+                    throw new CustomException("Please add atleast one item.");
                 }
             }
             catch (Exception ex)
