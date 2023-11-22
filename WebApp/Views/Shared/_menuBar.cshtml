@@ -1,4 +1,11 @@
-﻿ <!-- Sidebar -->
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<DomainModule.Entity.User> SignInManager
+@{
+    var IsSuperAdmin = SignInManager.Context.User.IsInRole(DomainModule.Entity.User.TypeSuperAdmin);
+}
+
+<!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
@@ -20,27 +27,29 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Admin
-    </div>
-
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-           aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Admin Settings</span>
-        </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-               
-                <a class="collapse-item" asp-area="Account" asp-controller="User" asp-action="Index">User List</a>
-                <a class="collapse-item" asp-area="Account" asp-controller="Role" asp-action="Index">Role</a>
-            </div>
+    @if (IsSuperAdmin)
+    {
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            Admin
         </div>
-    </li>
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Admin Settings</span>
+            </a>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+
+                    <a class="collapse-item" asp-area="Account" asp-controller="User" asp-action="Index">User List</a>
+                    <a class="collapse-item" asp-area="Account" asp-controller="Role" asp-action="Index">Role</a>
+                </div>
+            </div>
+        </li>
+    }
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMenu"
            aria-expanded="true" aria-controls="collapseMenu">
@@ -58,8 +67,10 @@
             </div>
         </div>
     </li>
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLog"
+    @if (IsSuperAdmin)
+    {
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLog"
            aria-expanded="true" aria-controls="headingLog">
             <i class="fas fa-fw fa-chart"></i>
             <span>Logs</span>
@@ -72,23 +83,27 @@
             </div>
         </div>
     </li>
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReport"
-           aria-expanded="true" aria-controls="headingReport">
-            <i class="fas fa-fw fa-file"></i>
-            <span>Report</span>
-        </a>
-        <div id="collapseReport" class="collapse" aria-labelledby="headingReport" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-               
-                <a class="collapse-item" asp-area="Report" asp-controller="CompanyReport" asp-action="Index">Company</a>
-            </div>
-        </div>
-    </li>
+    }
+    @if (IsSuperAdmin)
+    {
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReport"
+            aria-expanded="true" aria-controls="headingReport">
+                <i class="fas fa-fw fa-file"></i>
+                <span>Report</span>
+            </a>
+            <div id="collapseReport" class="collapse" aria-labelledby="headingReport" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
 
-    
-    <!-- Divider -->
-    <hr class="sidebar-divider">
+                    <a class="collapse-item" asp-area="Report" asp-controller="CompanyReport" asp-action="Index">Company</a>
+                </div>
+            </div>
+        </li>
+
+
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+    }
 
 
     <!-- Sidebar Toggler (Sidebar) -->
