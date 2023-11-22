@@ -1,0 +1,86 @@
+﻿@using DomainModule.Enums;
+
+<div class="container-fluid">
+
+
+    <div class="card">
+        <div class="card-header">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="h3 text-gray-800">
+                        Menus
+
+
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <label>Company</label>
+                    @Html.DropDownList("CompanyId", new SelectList(ViewBag.Companies,"Id","Name"),"--All--", new {@class = "form-control drop-down"})
+                </div>
+                <div class="col-md-3">
+                    <label>Menu Styles</label>
+                    @Html.DropDownList("Type", new SelectList(Enum.GetValues(typeof(MenuTypeEnum))), "-- Select --", new { @class = "form-control drop-down" })
+
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-success mt-4" id="generate" ><i class="fa fa-cog"></i> Generate</button>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @*  <div class="col-md-3">
+                <div class="menu-card">
+                //img or svg for preview
+                <div class="menu-card-textBox">
+                <p class="text head">Deafult Menu</p>
+                <a class="text generate"  data-type="@((int)DomainModule.Enums.MenuTypeEnum.Default)">Generate Menu</a>
+                </div>
+                </div>
+                </div> *@
+                <div class="col-md-12">
+                    <div id="MenuDetailsSection">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+
+        $("#generate").on("click", function (e) {
+            e.preventDefault();
+
+            var CompanyId = $("#CompanyId").val();
+            var Type = $("#Type").val();
+            if (CompanyId == 0) {
+                ShowErrorNotification("Please Select Company.");
+                return;
+            }
+            if (Type == "") {
+                ShowErrorNotification("Please Select Menu Style.");
+                return;
+            }
+
+            $.ajax({
+                url: '/Menu/MenuDetails',
+                type: 'GET',
+                data: { companyId: CompanyId, type: Type },
+                success: function (html) {
+                    
+                    $("#MenuDetailsSection").html(html);
+                },
+                error: function (error) {
+                    console.log(error)
+                    ShowErrorNotification(error.responseText);
+                }
+            });
+           
+        })
+    </script>
+}

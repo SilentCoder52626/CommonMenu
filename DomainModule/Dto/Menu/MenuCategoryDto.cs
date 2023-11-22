@@ -29,4 +29,8 @@ namespace DomainModule.Dto.Menu
         public List<AttachmentDto> Images { get; set; } = new List<AttachmentDto>();
 
     }
+    public class MenuCategoryViewModel : MenuCategoryDto
+    {
+        public List<ItemDto> Items { get; set; } = new List<ItemDto>();
+    }
 }
