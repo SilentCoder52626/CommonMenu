@@ -118,7 +118,7 @@ namespace WebApp.Areas.Account.Controllers
 					MobileNumber = model.MobileNumber,
 					Password = model.Password,
 					UserName = model.UserName,
-					Type = DomainModule.Entity.User.TypeCustomer,
+					Type = DomainModule.Entity.User.TypeGeneral,
 					CurrentSiteDomain = $"{Request.Scheme}://{Request.Host}",
 					Roles = new List<string>() { DomainModule.Entity.User.TypeGeneral.ToString() }
 
@@ -126,6 +126,8 @@ namespace WebApp.Areas.Account.Controllers
 				var userReponse = await _userService.Create(createDto);
 
 				_notify.AddSuccessToastMessage("Created succesfully. Please Confirm your account");
+
+
 				return RedirectToAction(nameof(Login));
 			}
 			catch (Exception ex)

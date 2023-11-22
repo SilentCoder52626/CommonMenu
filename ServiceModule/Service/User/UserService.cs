@@ -1,11 +1,14 @@
 ﻿using DomainModule.Dto;
+using DomainModule.Dto.Email;
 using DomainModule.Dto.User;
 using DomainModule.Entity;
 using DomainModule.Exceptions;
 using DomainModule.RepositoryInterface;
 using DomainModule.ServiceInterface;
+using DomainModule.ServiceInterface.Email;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using NETCore.MailKit.Core;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -22,15 +25,18 @@ namespace ServiceModule.Service
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailSenderService _emailService;
         public UserService(UserRepositoryInterface userRepo,
             UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IEmailSenderService emailService)
         {
             _userRepo = userRepo;
             _userManager = userManager;
             _roleManager = roleManager;
             _unitOfWork = unitOfWork;
+            _emailService = emailService;
         }
         public async Task Activate(string id)
         {
@@ -80,7 +86,10 @@ namespace ServiceModule.Service
                         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user).ConfigureAwait(false);
                         var emailConfirmationLink = $"{dto.CurrentSiteDomain}/Account/Account/ConfirmEmail?email={user.Email}&token={System.Web.HttpUtility.UrlEncode(token)}";
                         userReponseModel.EmailConfirmationLink = emailConfirmationLink;
-                      
+
+                        var htmlString = $"<p>Dear {user.Name}({user.UserName}),<br/><br/>&emsp;&emsp; Please click <a href='{emailConfirmationLink}'> <b>Here</b></a> to activate your account.  <br/><br/>Regards,<br/>CommonWorld</p>";
+                        var message = new MessageDto(new string[] { user.Email }, "Account Activation Link.", htmlString, null);
+                        await _emailService.SendEmailAsync(message).ConfigureAwait(true);
 
                     }
                     else
